@@ -248,7 +248,7 @@ class DisentangledTrainer(AugmentedTaskTrainer):
         for batch in self.train_loader:
             if len(batch) == 3:
                 inputs, labels, domain_labels = batch
-                domain_labels = domain_labels.to(self.device)
+                domain_labels = domain_labels.to(self.device).long()
                 has_domain = True
             else:
                 inputs, labels = batch
@@ -291,12 +291,10 @@ class DisentangledTrainer(AugmentedTaskTrainer):
             task_loss = self._loss(motion_logits, labels)
 
             # ---- KD losses (source domain only) -----------------------------
-            # domain_labels[:, 0] is the device index; label 0 = source domain.
-            # When domain labels are unavailable, treat the whole batch as source.
-            source_mask = (
-                (domain_labels[:, 0] == 0) if has_domain
-                else torch.ones(inputs.size(0), dtype=torch.bool, device=self.device)
-            )
+            # In CSI-Bench, train_loader contains ONLY source-domain samples
+            # (train_id split).  Target-domain splits are test-only and never
+            # enter the training loop, so the entire batch is always source.
+            source_mask = torch.ones(inputs.size(0), dtype=torch.bool, device=self.device)
             kd_soft, feat_loss = self._kd_losses(
                 motion_logits, t_logits, motion_feat, t_feat, source_mask
             )
