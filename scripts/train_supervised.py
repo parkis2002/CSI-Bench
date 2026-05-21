@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import math
 import os
 import sys
 
@@ -25,17 +26,23 @@ warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
 
 # Import model classes from models.py
 from model.supervised.models import (
-    MLPClassifier, 
-    LSTMClassifier, 
-    ResNet18Classifier, 
-    TransformerClassifier, 
+    MLPClassifier,
+    LSTMClassifier,
+    ResNet18Classifier,
+    TransformerClassifier,
     ViTClassifier,
     PatchTST,
     TimesFormer1D
 )
+from model.supervised.pruned_attention_gru import PrunedAttentionGRUClassifier
+from model.supervised.lightweight_models import LightTCN, InceptionCSI
+from model.supervised.performance_models import CsiConformer, DeepBiGRU, HierCSIFormer, ResNet18CSI
 
-# Import TaskTrainer
+# Import TaskTrainer and AugmentedTaskTrainer
 from engine.supervised.task_trainer import TaskTrainer
+from engine.supervised.augmented_trainer import AugmentedTaskTrainer
+from engine.supervised.domain_adversarial_trainer import DomainAdversarialTrainer
+from engine.supervised.kd_trainer import KnowledgeDistillationTrainer
 
 # Add few-shot learning import
 from engine.few_shot import FewShotAdapter
@@ -48,7 +55,14 @@ MODEL_TYPES = {
     'transformer': TransformerClassifier,
     'vit': ViTClassifier,
     'patchtst': PatchTST,
-    'timesformer1d': TimesFormer1D
+    'timesformer1d': TimesFormer1D,
+    'prunedattentiongru': PrunedAttentionGRUClassifier,
+    'lighttcn': LightTCN,
+    'inceptioncsi': InceptionCSI,
+    'csiconformer': CsiConformer,
+    'deepbigru': DeepBiGRU,
+    'hiercsiformer': HierCSIFormer,
+    'resnet18csi': ResNet18CSI,
 }
 
 def main(args=None):
@@ -58,8 +72,15 @@ def main(args=None):
                             help='Root directory of the dataset')
         parser.add_argument('--task_name', type=str, default='MotionSourceRecognition',
                             help='Name of the task to train on')
-        parser.add_argument('--model', type=str, default='vit', 
-                            choices=['mlp', 'lstm', 'resnet18', 'transformer', 'vit', 'patchtst', 'timesformer1d'],
+        parser.add_argument('--model', type=str, default='vit',
+                            choices=[
+                                'mlp', 'lstm', 'resnet18', 'transformer', 'vit',
+                                'patchtst', 'timesformer1d', 'prunedattentiongru',
+                                'lighttcn', 'inceptioncsi',
+                                'csiconformer', 'deepbigru',
+                                'hiercsiformer',
+                                'resnet18csi',
+                            ],
                             help='Type of model to train')
         parser.add_argument('--batch_size', type=int, default=32, help='Batch size for training')
         parser.add_argument('--epochs', type=int, default=30, help='Number of epochs to train')
@@ -139,7 +160,126 @@ def main(args=None):
                             help='Enable pin memory for data loading (not recommended for MPS)')
         parser.add_argument('--no_pin_memory', action='store_true',
                             help='Disable pin memory for data loading (use for MPS devices)')
-        
+
+        # ---- PrunedAttentionGRU-specific parameters ----------------------
+        parser.add_argument('--hidden_dim', type=int, default=128,
+                            help='GRU hidden state size for PrunedAttentionGRU')
+        parser.add_argument('--attention_dim', type=int, default=32,
+                            help='Attention projection dimension for PrunedAttentionGRU')
+
+        # ---- LightTCN-specific parameters -----------------------------------
+        parser.add_argument('--tcn_channels', type=int, default=64,
+                            help='Number of channels in each TCN block (LightTCN)')
+        parser.add_argument('--tcn_layers', type=int, default=3,
+                            help='Number of TCN blocks; dilation doubles per block (LightTCN)')
+
+        # ---- InceptionCSI-specific parameters --------------------------------
+        parser.add_argument('--nb_filters', type=int, default=24,
+                            help='Filters per inception branch; total channels = nb_filters × 4 (InceptionCSI)')
+
+        # ---- CsiConformer-specific parameters --------------------------------
+        parser.add_argument('--conf_d_model', type=int, default=128,
+                            help='Model dimension for each Conformer block; must be divisible by n_heads (CsiConformer)')
+        parser.add_argument('--conf_layers', type=int, default=4,
+                            help='Number of stacked Conformer blocks (CsiConformer)')
+
+        # ---- DeepBiGRU-specific parameters -----------------------------------
+        parser.add_argument('--bigru_hidden', type=int, default=128,
+                            help='Hidden size per direction in the bidirectional GRU; output dim = bigru_hidden × 2 (DeepBiGRU)')
+        parser.add_argument('--bigru_layers', type=int, default=2,
+                            help='Number of stacked BiGRU layers (DeepBiGRU)')
+
+        # ---- HierCSIFormer-specific parameters ------------------------------
+        parser.add_argument('--hiercsi_d_model', type=int, default=256,
+                            help='Transformer d_model for HierCSIFormer; must be '
+                                 'divisible by 8 (n_heads=8). Default 256.')
+        parser.add_argument('--hiercsi_layers', type=int, default=6,
+                            help='Number of pre-LN Transformer encoder blocks '
+                                 'in HierCSIFormer. Default 6.')
+
+        # ---- Augmentation parameters (used with AugmentedTaskTrainer) ----
+        parser.add_argument('--use_augmentation', action='store_true',
+                            help='Enable online data augmentation via AugmentedTaskTrainer')
+        parser.add_argument('--mixup_prob', type=float, default=0.3,
+                            help='Per-batch probability of applying mixup augmentation')
+        parser.add_argument('--noise_prob', type=float, default=0.5,
+                            help='Per-batch probability of applying Gaussian noise')
+        parser.add_argument('--noise_scale', type=float, default=0.05,
+                            help='Multiplicative Gaussian noise scale: x += noise_scale * x * N(0,1)')
+        parser.add_argument('--shift_prob', type=float, default=0.5,
+                            help='Per-batch probability of applying temporal shift')
+        parser.add_argument('--max_shift', type=int, default=10,
+                            help='Maximum time steps for temporal shift augmentation')
+        parser.add_argument('--amplitude_prob', type=float, default=0.5,
+                            help='Per-batch probability of random amplitude scaling')
+        parser.add_argument('--amplitude_lo', type=float, default=0.7,
+                            help='Lower bound of the amplitude scaling Uniform distribution')
+        parser.add_argument('--amplitude_hi', type=float, default=1.3,
+                            help='Upper bound of the amplitude scaling Uniform distribution')
+        parser.add_argument('--subcarrier_dropout_prob', type=float, default=0.0,
+                            help='Fraction of subcarrier channels zeroed per batch '
+                                 '(0.15 recommended for DeepBiGRU cross-device generalisation)')
+        # ---- Loss parameters ------------------------------------------------
+        parser.add_argument('--label_smoothing', type=float, default=0.1,
+                            help='Label smoothing ε for CrossEntropyLoss (0 = off)')
+        parser.add_argument('--focal_gamma', type=float, default=2.0,
+                            help='Focal loss γ for L(p_t) = -α_t (1-p_t)^γ log(p_t). '
+                                 '2.0 = standard focal loss with inverse-freq class weights. '
+                                 '0.0 = plain CE + label smoothing.')
+        # ---- Training stability --------------------------------------------
+        parser.add_argument('--grad_clip_norm', type=float, default=1.0,
+                            help='Max gradient norm for clip_grad_norm_; '
+                                 '0.5 recommended for CsiConformer')
+        # ---- DeepBiGRU-specific --------------------------------------------
+        parser.add_argument('--n_transformer_layers', type=int, default=1,
+                            help='Number of TransformerEncoder layers in DeepBiGRU')
+        # ---- InceptionCSI-specific -----------------------------------------
+        parser.add_argument('--inception_depth', type=int, default=6,
+                            help='Number of InceptionBlocks in InceptionCSI '
+                                 '(residual shortcut applied every 3 blocks)')
+
+        # ---- Knowledge distillation ----------------------------------------
+        parser.add_argument('--use_kd', action='store_true',
+                            help='Enable knowledge distillation from a frozen ResNet18CSI teacher')
+        parser.add_argument('--kd_teacher_checkpoint', type=str, default=None,
+                            help='Path to the teacher best_model.pt checkpoint '
+                                 '(required when --use_kd is set)')
+        parser.add_argument('--kd_temperature', type=float, default=4.0,
+                            help='Softmax temperature T for soft-target distillation '
+                                 '(higher T → softer distributions; typical range 2–8)')
+        parser.add_argument('--kd_alpha', type=float, default=0.5,
+                            help='Weight of the soft-target KD loss. '
+                                 'Task CE weight is (1 - kd_alpha).')
+        parser.add_argument('--kd_beta', type=float, default=0.1,
+                            help='Weight of the feature matching MSE loss.')
+
+        # ---- Domain-adversarial training -----------------------------------
+        parser.add_argument('--use_domain_adversarial', action='store_true',
+                            help='Enable gradient-reversal domain adversarial training '
+                                 '(requires use_augmentation; trains domain heads for '
+                                 'device, environment, and user simultaneously)')
+        parser.add_argument('--domain_lambda', type=float, default=0.1,
+                            help='Weight for the domain adversarial loss '
+                                 '(total loss = L_HAR + domain_lambda * L_domain)')
+        parser.add_argument('--da_start_threshold', type=float, default=0.60,
+                            help='Minimum training HAR accuracy required before domain '
+                                 'adversarial loss is activated (gate prevents GRL from '
+                                 'disrupting early feature learning)')
+        # ---- P3: CORAL covariance alignment --------------------------------
+        parser.add_argument('--coral_lambda', type=float, default=0.0,
+                            help='Weight for CORAL covariance alignment loss (P3). '
+                                 '0.0 disables CORAL; 1.0 is a good starting value. '
+                                 'Activated when DA gate opens.')
+        # ---- P4: Partial adversarial ---------------------------------------
+        parser.add_argument('--partial_adv_frac', type=float, default=1.0,
+                            help='Fraction of backbone features exposed to GRL (P4). '
+                                 '1.0 = full features (original); 0.5 = only the last '
+                                 '50 %% of features receive adversarial gradient.')
+        # ---- P5: Layer freezing --------------------------------------------
+        parser.add_argument('--freeze_frac', type=float, default=0.0,
+                            help='Fraction of backbone parameter groups frozen when '
+                                 'the DA gate first opens (P5). 0.0 = no freezing.')
+
         args = parser.parse_args()
     
     # Set output directory if not specified
@@ -170,7 +310,20 @@ def main(args=None):
         param_str += f"_{args.d_model}"
     if hasattr(args, 'in_channels') and args.in_channels is not None:
         param_str += f"_{args.in_channels}"
-    
+    if getattr(args, 'focal_gamma', 0.0) > 0:
+        param_str += f"_fg{getattr(args, 'focal_gamma', 2.0)}"
+    if getattr(args, 'use_domain_adversarial', False):
+        param_str += (
+            f"_da{getattr(args, 'da_start_threshold', 0.60)}"
+            f"_padv{getattr(args, 'partial_adv_frac', 1.0)}"
+            f"_frz{getattr(args, 'freeze_frac', 0.0)}"
+        )
+    if getattr(args, 'model', '') == 'hiercsiformer':
+        param_str += (
+            f"_hd{getattr(args, 'hiercsi_d_model', 256)}"
+            f"_hl{getattr(args, 'hiercsi_layers', 6)}"
+        )
+
     experiment_id = f"params_{hashlib.md5(param_str.encode()).hexdigest()[:10]}"
     
     if is_sagemaker:
@@ -245,15 +398,26 @@ def main(args=None):
     
     print(f"Using test splits: {test_splits}")
     
+    # Domain adversarial: which metadata columns to use as domain labels.
+    # Determined here so the collate_fn closure can reference it.
+    use_domain_adv = getattr(args, 'use_domain_adversarial', False)
+    _DOMAIN_COLUMNS = ['device', 'environment', 'user'] if use_domain_adv else []
+
     # Add handling for None values to prevent dataloader errors
     def custom_collate_fn(batch):
         # Filter out None samples
         batch = [item for item in batch if item is not None]
-        
+
         # If no samples remain after filtering, return empty tensors
         if len(batch) == 0:
+            if _DOMAIN_COLUMNS:
+                return (
+                    torch.zeros(0, 1, args.win_len, args.feature_size),
+                    torch.zeros(0, dtype=torch.long),
+                    torch.zeros(0, len(_DOMAIN_COLUMNS), dtype=torch.long),
+                )
             return torch.zeros(0, 1, args.win_len, args.feature_size), torch.zeros(0, dtype=torch.long)
-        
+
         # Use default collate function for the filtered batch
         return torch.utils.data.dataloader.default_collate(batch)
     
@@ -274,13 +438,15 @@ def main(args=None):
         use_root_as_task_dir=args.use_root_data_path,
         collate_fn=custom_collate_fn,
         pin_memory=args.pin_memory,
-        debug=False
+        debug=False,
+        domain_columns=_DOMAIN_COLUMNS if _DOMAIN_COLUMNS else None,
     )
-    
+
     # Extract data from the returned dictionary
     loaders = data['loaders']
     num_classes = data['num_classes']
     label_mapper = data['label_mapper']
+    domain_n_classes = data.get('domain_n_classes', [])
     
     # Get training and validation loaders
     train_loader = loaders['train']
@@ -360,7 +526,75 @@ def main(args=None):
             'mlp_ratio': args.mlp_ratio,
             'dropout': args.dropout
         })
-    
+
+    # PrunedAttentionGRU specific parameters
+    if args.model == 'prunedattentiongru':
+        model_kwargs.update({
+            'feature_size': args.feature_size,
+            'hidden_dim': args.hidden_dim,
+            'attention_dim': args.attention_dim,
+            'win_len': args.win_len,
+        })
+
+    # LightTCN specific parameters
+    if args.model == 'lighttcn':
+        model_kwargs.update({
+            'feature_size': args.feature_size,
+            'tcn_channels': args.tcn_channels,
+            'tcn_layers': args.tcn_layers,
+            'dropout': args.dropout,
+            'win_len': args.win_len,
+        })
+
+    # InceptionCSI specific parameters
+    if args.model == 'inceptioncsi':
+        model_kwargs.update({
+            'feature_size': args.feature_size,
+            'nb_filters': args.nb_filters,
+            'depth': args.inception_depth,
+            'dropout': args.dropout,
+            'win_len': args.win_len,
+        })
+
+    # CsiConformer specific parameters
+    if args.model == 'csiconformer':
+        model_kwargs.update({
+            'feature_size': args.feature_size,
+            'conf_d_model': args.conf_d_model,
+            'conf_layers': args.conf_layers,
+            'dropout': args.dropout,
+            'win_len': args.win_len,
+        })
+
+    # DeepBiGRU specific parameters
+    if args.model == 'deepbigru':
+        model_kwargs.update({
+            'feature_size': args.feature_size,
+            'bigru_hidden': args.bigru_hidden,
+            'bigru_layers': args.bigru_layers,
+            'n_transformer_layers': args.n_transformer_layers,
+            'dropout': args.dropout,
+            'win_len': args.win_len,
+        })
+
+    # HierCSIFormer specific parameters
+    if args.model == 'hiercsiformer':
+        model_kwargs.update({
+            'feature_size': args.feature_size,
+            'win_len': args.win_len,
+            'hiercsi_d_model': args.hiercsi_d_model,
+            'hiercsi_layers': args.hiercsi_layers,
+            'dropout': args.dropout,
+        })
+
+    # ResNet18CSI specific parameters (teacher model for knowledge distillation)
+    if args.model == 'resnet18csi':
+        model_kwargs.update({
+            'win_len': args.win_len,
+            'feature_size': args.feature_size,
+            'dropout': args.dropout,
+        })
+
     # Initialize model
     model = ModelClass(**model_kwargs)
     model = model.to(device)
@@ -410,8 +644,8 @@ def main(args=None):
     
     scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=warmup_cosine_schedule)
     
-    # Create TaskTrainer
-    trainer = TaskTrainer(
+    # Build trainer kwargs shared by both TaskTrainer and AugmentedTaskTrainer
+    trainer_kwargs = dict(
         model=model,
         train_loader=train_loader,
         val_loader=val_loader,
@@ -432,8 +666,83 @@ def main(args=None):
             'warmup_epochs': args.warmup_epochs,
             'patience': args.patience,
         },
-        label_mapper=label_mapper
+        label_mapper=label_mapper,
     )
+
+    use_aug = getattr(args, 'use_augmentation', False)
+    use_kd  = getattr(args, 'use_kd', False)
+
+    effective_focal_gamma = args.focal_gamma
+
+    # Shared augmentation kwargs (used by AugmentedTaskTrainer and its subclasses)
+    aug_kwargs = dict(
+        mixup_prob=args.mixup_prob,
+        noise_prob=args.noise_prob,
+        noise_scale=args.noise_scale,
+        shift_prob=args.shift_prob,
+        max_shift=args.max_shift,
+        amplitude_prob=args.amplitude_prob,
+        amplitude_lo=args.amplitude_lo,
+        amplitude_hi=args.amplitude_hi,
+        subcarrier_dropout_prob=args.subcarrier_dropout_prob,
+        label_smoothing=args.label_smoothing,
+        focal_gamma=effective_focal_gamma,
+        grad_clip_norm=args.grad_clip_norm,
+    )
+
+    if use_kd and use_aug:
+        kd_ckpt = getattr(args, 'kd_teacher_checkpoint', None)
+        if not kd_ckpt:
+            raise ValueError(
+                "--kd_teacher_checkpoint must be set when --use_kd is enabled"
+            )
+        teacher = ResNet18CSI(
+            win_len=args.win_len,
+            feature_size=args.feature_size,
+            num_classes=num_classes,
+        )
+        ckpt = torch.load(kd_ckpt, map_location=device, weights_only=False)
+        teacher.load_state_dict(ckpt['model_state_dict'])
+        print(
+            f"Using KnowledgeDistillationTrainer  "
+            f"(teacher=ResNet18CSI from {kd_ckpt}, "
+            f"T={args.kd_temperature}, alpha={args.kd_alpha}, beta={args.kd_beta})"
+        )
+        trainer = KnowledgeDistillationTrainer(
+            **trainer_kwargs,
+            **aug_kwargs,
+            teacher=teacher,
+            kd_temperature=args.kd_temperature,
+            kd_alpha=args.kd_alpha,
+            kd_beta=args.kd_beta,
+        )
+    elif use_domain_adv and use_aug:
+        print(
+            f"Using DomainAdversarialTrainer  "
+            f"(lambda_domain=scheduled, "
+            f"domain_n_classes={domain_n_classes})"
+        )
+        trainer = DomainAdversarialTrainer(
+            **trainer_kwargs,
+            **aug_kwargs,
+            domain_n_classes=domain_n_classes,
+            da_start_threshold=getattr(args, 'da_start_threshold', 0.60),
+            partial_adv_frac=getattr(args, 'partial_adv_frac', 1.0),
+            freeze_frac=getattr(args, 'freeze_frac', 0.0),
+        )
+    elif use_aug:
+        print(
+            f"Using AugmentedTaskTrainer  "
+            f"(noise_prob={args.noise_prob}, shift_prob={args.shift_prob}, "
+            f"amplitude_prob={args.amplitude_prob}, "
+            f"subcarrier_dropout={args.subcarrier_dropout_prob}, "
+            f"mixup_prob={args.mixup_prob}, max_shift={args.max_shift}, "
+            f"focal_gamma={args.focal_gamma}, label_smoothing={args.label_smoothing}, "
+            f"grad_clip_norm={args.grad_clip_norm})"
+        )
+        trainer = AugmentedTaskTrainer(**trainer_kwargs, **aug_kwargs)
+    else:
+        trainer = TaskTrainer(**trainer_kwargs)
     
     # Train the model with early stopping
     model, training_results = trainer.train()
@@ -736,5 +1045,4 @@ def main(args=None):
     return summary, all_results, model
 
 if __name__ == '__main__':
-    import math  # Import math here for the scheduler function
     main()

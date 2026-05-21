@@ -1,4 +1,6 @@
 import os
+import json
+import pandas as pd
 from torch.utils.data import DataLoader
 from .benchmark_dataset import BenchmarkCSIDataset
 from ..supervised.label_utils import LabelMapper, create_label_mapper_from_metadata
@@ -23,7 +25,8 @@ def load_benchmark_supervised(
     debug=False,
     distributed=False,
     collate_fn=None,
-    pin_memory=True
+    pin_memory=True,
+    domain_columns=None,  # e.g. ['device', 'environment', 'user'] for adversarial training
 ):
     """
     Load benchmark dataset for supervised learning.
@@ -233,10 +236,21 @@ def load_benchmark_supervised(
         )
     
     # Create datasets
+    # Domain label encoders are built from the training split and reused across splits.
+    # Only the training dataset returns domain labels (3-tuple); val/test return 2-tuples.
+    domain_label_encoders = None
+    domain_n_classes = []
     datasets = {}
     for split_name in all_splits:
         try:
             print(f"Using provided task directory: {task_dir}")
+            # Pass domain_columns only for the training split so that encoders are
+            # built from training data.  Subsequent splits receive the pre-built
+            # encoders so their vocabulary matches the training split exactly.
+            is_train = (split_name == train_split)
+            split_domain_cols = domain_columns if is_train else None
+            split_domain_enc = None if is_train else None  # not needed for non-train
+
             dataset = BenchmarkCSIDataset(
                 dataset_root=dataset_root,
                 task_name=task_name,
@@ -249,10 +263,20 @@ def load_benchmark_supervised(
                 data_key=data_key,
                 label_mapper=label_mapper,
                 task_dir=task_dir,  # Pass the found task_dir to the dataset
-                debug=debug
+                debug=debug,
+                domain_columns=split_domain_cols,
+                domain_label_encoders=split_domain_enc,
             )
             datasets[split_name] = dataset
             print(f"Loaded {len(dataset)} samples for {task_name} - {split_name}")
+
+            # Capture domain encoders from the training dataset for downstream use
+            if is_train and domain_columns:
+                domain_label_encoders = dataset.domain_label_encoders
+                domain_n_classes = dataset.domain_n_classes
+                print(f"[Domain] encoders built: "
+                      + ", ".join(f"{c}: {n} classes"
+                                  for c, n in zip(domain_columns, domain_n_classes)))
         except Exception as e:
             print(f"Error loading split '{split_name}': {str(e)}")
             datasets[split_name] = None
@@ -362,7 +386,9 @@ def load_benchmark_supervised(
         'loaders': loaders,
         'datasets': datasets,
         'num_classes': num_classes,
-        'label_mapper': label_mapper
+        'label_mapper': label_mapper,
+        'domain_n_classes': domain_n_classes,   # list of ints; empty when domain_columns=None
+        'domain_label_encoders': domain_label_encoders,  # dict or None
     }
     
     # Include samplers in the result if distributed

@@ -1,14 +1,14 @@
 {
   "pipeline": "supervised",
-  "training_dir": "",
+  "training_dir": "./csi-bench-dataset",
   "output_dir": "./results",
-  "task": "TestTask",
+  "task": "HumanActivityRecognition",
   "win_len": 500,
   "feature_size": 232,
   "seed": 42,
-  "batch_size": 8,
+  "batch_size": 128,
   "epochs": 100,
   "test_splits": "all",
-  "available_models": ["mlp", "lstm", "resnet18", "transformer", "vit", "patchtst", "timesformer1d"]
+  "available_models": ["resnet18", "vit", "mlp", "lstm"]
 } 
 

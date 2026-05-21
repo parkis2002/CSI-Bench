@@ -418,16 +418,27 @@ def run_supervised_direct(config):
         cmd += f" --test_splits={quoted_test_splits}"
     
     # Add other model-specific parameters
-    important_params = ['learning_rate', 'weight_decay', 'warmup_epochs', 'patience', 
-                         'emb_dim', 'dropout', 'd_model']
+    important_params = [
+        'learning_rate', 'weight_decay', 'warmup_epochs', 'patience',
+        'emb_dim', 'dropout', 'd_model',
+        # PrunedAttentionGRU parameters
+        'hidden_dim', 'attention_dim',
+        'mixup_prob', 'noise_prob', 'shift_prob', 'max_shift',
+    ]
     for param in important_params:
         if param in config:
             cmd += f" --{param}={config[param]}"
-    
-    # Add parameters from model_params
+
+    # Add parameters from model_params.
+    # Boolean values (JSON true/false) are emitted as bare flags when true
+    # and omitted when false, to be compatible with argparse store_true actions.
     if 'model_params' in config:
         for key, value in config['model_params'].items():
-            cmd += f" --{key}={value}"
+            if isinstance(value, bool):
+                if value:
+                    cmd += f" --{key}"
+            else:
+                cmd += f" --{key}={value}"
     
     # Run command and capture output
     print(f"Running supervised learning: {cmd}")
@@ -639,7 +650,21 @@ def main():
         # Create a new config copy for each model
         model_config = config.copy()
         model_config['model'] = model
-        
+
+        # Apply per_model_params overrides (if present in config).
+        # Top-level keys (e.g. learning_rate, warmup_epochs) override the
+        # shared values; nested model_params are merged with shared params,
+        # with per-model values taking precedence.
+        if 'per_model_params' in config and model in config['per_model_params']:
+            overrides = config['per_model_params'][model]
+            for k, v in overrides.items():
+                if k == 'model_params':
+                    merged = model_config.get('model_params', {}).copy()
+                    merged.update(v)
+                    model_config['model_params'] = merged
+                else:
+                    model_config[k] = v
+
         # Get specific pipeline configuration
         if pipeline == 'multitask':
             pipeline_config = get_multitask_config(model_config)

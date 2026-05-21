@@ -16,7 +16,7 @@ class BenchmarkCSIDataset(Dataset):
     Supports MAT, NPY, and HDF5 formats.
     Each sample has shape (time_index, feature_size, 1) in H5 files.
     """
-    def __init__(self, 
+    def __init__(self,
                  dataset_root,  # Root directory of the dataset
                  task_name,     # Name of the task (e.g., 'motion_source_recognition')
                  split_name,    # Split name (e.g., 'train_id', 'test_cross_user')
@@ -28,7 +28,9 @@ class BenchmarkCSIDataset(Dataset):
                  data_key="CSI_amps",   # Key in h5 file for data
                  label_mapper=None,     # Optional label mapper for converting string labels to indices
                  task_dir=None,        # Optional task directory path (to avoid searching again)
-                 debug=False):         # Flag to enable/disable debug print statements
+                 debug=False,          # Flag to enable/disable debug print statements
+                 domain_columns=None,         # List of metadata columns to use as domain labels (e.g. ['device','environment','user'])
+                 domain_label_encoders=None): # Pre-built encoders dict: col -> {value: int}; if None, built from this split
         self.dataset_root = dataset_root
         self.task_name = task_name
         self.split_name = split_name
@@ -186,7 +188,26 @@ class BenchmarkCSIDataset(Dataset):
         
         # Set number of classes
         self.num_classes = self.label_mapper.num_classes
-    
+
+        # Domain label encoders (for adversarial training)
+        self.domain_columns = domain_columns or []
+        self.domain_label_encoders = {}
+        self.domain_n_classes = []
+        if self.domain_columns:
+            if domain_label_encoders is not None:
+                self.domain_label_encoders = domain_label_encoders
+                self.domain_n_classes = [
+                    len(domain_label_encoders[c])
+                    for c in self.domain_columns
+                    if c in domain_label_encoders
+                ]
+            else:
+                for col in self.domain_columns:
+                    if col in self.split_metadata.columns:
+                        unique_vals = sorted(self.split_metadata[col].dropna().unique().tolist())
+                        self.domain_label_encoders[col] = {str(v): i for i, v in enumerate(unique_vals)}
+                        self.domain_n_classes.append(len(unique_vals))
+
     def __len__(self):
         return len(self.split_metadata)
     
@@ -420,13 +441,13 @@ class BenchmarkCSIDataset(Dataset):
                 # Permute to get (1, time_index, feature_size)
                 csi_data = csi_data.permute(2, 1, 0)
             
-            # Normalize CSI data along time and feature dimensions
-            # First calculate mean and std along time and feature dimensions (dims 1 and 2)
-            mean = csi_data.mean(dim=(1, 2), keepdim=True)
-            std = csi_data.std(dim=(1, 2), keepdim=True)
-            # Add small epsilon to avoid division by zero
-            std = torch.clamp(std, min=1e-8)
-            # Apply normalization
+            # Per-subcarrier z-score: normalise each subcarrier independently
+            # over the time axis (dim 1).  This removes device-specific per-
+            # subcarrier gain/frequency-response offsets while preserving
+            # temporal dynamics that carry activity information.
+            # Shape: [1, T, F] → mean/std per subcarrier: [1, 1, F]
+            mean = csi_data.mean(dim=1, keepdim=True)
+            std = csi_data.std(dim=1, keepdim=True).clamp(min=1e-8)
             csi_data = (csi_data - mean) / std
             
             # Standardize the size to (1, 500, 232)
@@ -457,7 +478,21 @@ class BenchmarkCSIDataset(Dataset):
             
             # Convert string label to integer using mapper
             label_idx = self.label_mapper.transform(label)
-            
+
+            # Optionally return domain labels for adversarial training
+            if self.domain_columns:
+                domain_indices = []
+                for col in self.domain_columns:
+                    enc = self.domain_label_encoders.get(col, {})
+                    val = row.get(col, None)
+                    if val is not None and not (isinstance(val, float) and np.isnan(val)):
+                        val_str = str(val)
+                    else:
+                        val_str = ''
+                    domain_indices.append(enc.get(val_str, 0))
+                domain_tensor = torch.tensor(domain_indices, dtype=torch.long)
+                return csi_data, label_idx, domain_tensor
+
             return csi_data, label_idx
             
         except Exception as e:

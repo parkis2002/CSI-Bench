@@ -1,1 +1,2 @@
 from engine.supervised.task_trainer import TaskTrainer
+from engine.supervised.augmented_trainer import AugmentedTaskTrainer
