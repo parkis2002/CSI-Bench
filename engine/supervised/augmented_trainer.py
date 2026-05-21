@@ -72,6 +72,7 @@ class AugmentedTaskTrainer(TaskTrainer):
     def __init__(
         self,
         *args,
+        use_augmentation: bool = True,
         mixup_prob: float = 0.3,
         noise_prob: float = 0.5,
         noise_scale: float = 0.05,
@@ -89,6 +90,7 @@ class AugmentedTaskTrainer(TaskTrainer):
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
+        self.use_augmentation = use_augmentation
         self.mixup_prob = mixup_prob
         self.noise_prob = noise_prob
         self.noise_scale = noise_scale
@@ -182,6 +184,8 @@ class AugmentedTaskTrainer(TaskTrainer):
         dropout in that order.  Each augmentation fires independently with
         its own probability.  Used by both train_epoch and KD subclasses.
         """
+        if not self.use_augmentation:
+            return inputs
         if random.random() < self.noise_prob:
             inputs = self._gaussian_noise(inputs)
         if random.random() < self.shift_prob:
@@ -309,7 +313,7 @@ class AugmentedTaskTrainer(TaskTrainer):
 
             # ---- online augmentation (noise, shift, amplitude, subcarrier) ---
             inputs = self._apply_input_augmentation(inputs)
-            apply_mixup = random.random() < self.mixup_prob
+            apply_mixup = self.use_augmentation and random.random() < self.mixup_prob
 
             # ---- forward pass -------------------------------------------
             start = time.time()

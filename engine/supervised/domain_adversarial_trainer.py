@@ -284,15 +284,8 @@ class DomainAdversarialTrainer(AugmentedTaskTrainer):
                 act_labels = act_labels[0]
             act_labels = act_labels.to(self.device)
 
-            # ---- Online augmentation (reuse parent helpers) ----------------
-            if random.random() < self.noise_prob:
-                inputs = self._gaussian_noise(inputs)
-            if random.random() < self.shift_prob:
-                inputs = self._temporal_shift(inputs)
-            if random.random() < self.amplitude_prob:
-                inputs = self._amplitude_scale(inputs)
-            if self.subcarrier_dropout_prob > 0:
-                inputs = self._subcarrier_dropout(inputs)
+            # ---- Online augmentation (no-op when use_augmentation=False) -----
+            inputs = self._apply_input_augmentation(inputs)
 
             # ---- Forward pass ----------------------------------------------
             start = time.time()

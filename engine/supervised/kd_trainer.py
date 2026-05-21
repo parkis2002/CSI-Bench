@@ -186,7 +186,7 @@ class KnowledgeDistillationTrainer(AugmentedTaskTrainer):
 
             # ---- input augmentation (noise, shift, amplitude, dropout) ----
             inputs = self._apply_input_augmentation(inputs)
-            apply_mixup = random.random() < self.mixup_prob
+            apply_mixup = self.use_augmentation and random.random() < self.mixup_prob
 
             # ---- teacher forward (frozen, no gradient) --------------------
             with torch.no_grad():

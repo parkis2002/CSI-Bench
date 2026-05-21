@@ -690,7 +690,7 @@ def main(args=None):
         grad_clip_norm=args.grad_clip_norm,
     )
 
-    if use_kd and use_aug:
+    if use_kd:
         kd_ckpt = getattr(args, 'kd_teacher_checkpoint', None)
         if not kd_ckpt:
             raise ValueError(
@@ -706,25 +706,29 @@ def main(args=None):
         print(
             f"Using KnowledgeDistillationTrainer  "
             f"(teacher=ResNet18CSI from {kd_ckpt}, "
-            f"T={args.kd_temperature}, alpha={args.kd_alpha}, beta={args.kd_beta})"
+            f"T={args.kd_temperature}, alpha={args.kd_alpha}, beta={args.kd_beta}, "
+            f"augmentation={use_aug})"
         )
         trainer = KnowledgeDistillationTrainer(
             **trainer_kwargs,
             **aug_kwargs,
+            use_augmentation=use_aug,
             teacher=teacher,
             kd_temperature=args.kd_temperature,
             kd_alpha=args.kd_alpha,
             kd_beta=args.kd_beta,
         )
-    elif use_domain_adv and use_aug:
+    elif use_domain_adv:
         print(
             f"Using DomainAdversarialTrainer  "
             f"(lambda_domain=scheduled, "
-            f"domain_n_classes={domain_n_classes})"
+            f"domain_n_classes={domain_n_classes}, "
+            f"augmentation={use_aug})"
         )
         trainer = DomainAdversarialTrainer(
             **trainer_kwargs,
             **aug_kwargs,
+            use_augmentation=use_aug,
             domain_n_classes=domain_n_classes,
             da_start_threshold=getattr(args, 'da_start_threshold', 0.60),
             partial_adv_frac=getattr(args, 'partial_adv_frac', 1.0),
