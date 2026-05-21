@@ -237,17 +237,22 @@ class TaskTrainer(BaseTrainer):
         total_samples = 0
         total_time = 0.0
         
-        for inputs, labels in self.train_loader:
+        for batch in self.train_loader:
+            if len(batch) == 3:
+                inputs, labels, _ = batch
+            else:
+                inputs, labels = batch
+
             # Skip empty batches (from custom_collate_fn if all samples were None)
             if inputs.size(0) == 0:
                 continue
-                
+
             batch_size = inputs.size(0)
             total_samples += batch_size
-            
+
             # Transfer to device
             inputs = inputs.to(self.device)
-            
+
             # Handle case where labels might be a tuple
             if isinstance(labels, tuple):
                 labels = labels[0]
@@ -348,14 +353,19 @@ class TaskTrainer(BaseTrainer):
         total_samples = 0
         
         with torch.no_grad():
-            for inputs, labels in data_loader:
+            for batch in data_loader:
+                if len(batch) == 3:
+                    inputs, labels, _ = batch
+                else:
+                    inputs, labels = batch
+
                 # Skip empty batches
                 if inputs.size(0) == 0:
                     continue
-                    
+
                 batch_size = inputs.size(0)
                 total_samples += batch_size
-                
+
                 # Transfer to device
                 inputs = inputs.to(self.device)
                 # Handle case where labels might be a tuple
