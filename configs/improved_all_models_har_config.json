@@ -1,0 +1,108 @@
+{
+  "pipeline": "supervised",
+
+  "training_dir": "./csi-bench-dataset",
+  "output_dir": "./results",
+
+  "task": "HumanActivityRecognition",
+  "available_models": ["inceptioncsi", "lighttcn", "deepbigru"],
+
+  "win_len": 500,
+  "feature_size": 232,
+
+  "batch_size": 128,
+  "epochs": 150,
+  "learning_rate": 0.001,
+  "weight_decay": 1e-5,
+  "warmup_epochs": 5,
+  "patience": 20,
+  "seed": 42,
+
+  "test_splits": "all",
+
+  "model_params": {
+    "use_augmentation": true,
+    "use_domain_adversarial": true,
+    "da_start_threshold": 0.60,
+    "partial_adv_frac": 0.5,
+    "freeze_frac": 0.1,
+    "focal_gamma": 2.0,
+    "noise_prob": 0.2,
+    "noise_scale": 0.01,
+    "shift_prob": 0.2,
+    "amplitude_prob": 0.3,
+    "amplitude_lo": 0.9,
+    "amplitude_hi": 1.1,
+    "mixup_prob": 0.1,
+    "max_shift": 10,
+
+    "use_kd": true,
+    "kd_teacher_checkpoint": "./results/HumanActivityRecognition/resnet18csi/params_62c9fe48f0/best_model.pt",
+    "kd_temperature": 4.0,
+    "kd_alpha": 0.5,
+    "kd_beta": 0.1,
+
+    "hidden_dim": 128,
+    "attention_dim": 32,
+
+    "tcn_channels": 128,
+    "tcn_layers": 5,
+
+    "nb_filters": 24,
+    "inception_depth": 6,
+
+    "conf_d_model": 128,
+    "conf_layers": 4,
+
+    "bigru_hidden": 96,
+    "bigru_layers": 2,
+    "n_transformer_layers": 1
+  },
+
+  "per_model_params": {
+    "inceptioncsi": {
+      "learning_rate": 0.0005,
+      "model_params": {
+        "freeze_frac": 0.0
+      }
+    },
+    "lighttcn": {
+      "learning_rate": 0.0005,
+      "model_params": {
+        "freeze_frac": 0.0
+      }
+    },
+    "csiconformer": {
+      "learning_rate": 0.0005,
+      "warmup_epochs": 5,
+      "patience": 30,
+      "model_params": {
+        "grad_clip_norm": 1.0,
+        "dropout": 0.1,
+        "da_start_threshold": 0.55,
+        "freeze_frac": 0.1
+      }
+    },
+    "deepbigru": {
+      "model_params": {
+        "subcarrier_dropout_prob": 0.02,
+        "dropout": 0.3,
+        "freeze_frac": 0.1
+      }
+    },
+    "prunedattentiongru": {
+      "model_params": {
+        "freeze_frac": 0.0
+      }
+    },
+    "hiercsiformer": {
+      "model_params": {
+        "use_kd": false,
+        "hiercsi_d_model": 256,
+        "hiercsi_layers": 6,
+        "dropout": 0.1,
+        "freeze_frac": 0.2
+      }
+    }
+  }
+}

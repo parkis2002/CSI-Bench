@@ -1,0 +1,38 @@
+{
+  "pipeline": "supervised",
+
+  "training_dir": "./csi-bench-dataset",
+  "output_dir": "./results",
+
+  "task": "HumanActivityRecognition",
+  "available_models": ["prunedattentiongru", "lighttcn", "inceptioncsi"],
+
+  "win_len": 500,
+  "feature_size": 232,
+
+  "batch_size": 32,
+  "epochs": 50,
+  "learning_rate": 0.001,
+  "weight_decay": 1e-5,
+  "warmup_epochs": 5,
+  "patience": 15,
+  "seed": 42,
+
+  "test_splits": "all",
+
+  "model_params": {
+    "use_augmentation": true,
+    "noise_prob": 0.5,
+    "shift_prob": 0.5,
+    "mixup_prob": 0.3,
+    "max_shift": 10,
+
+    "hidden_dim": 128,
+    "attention_dim": 32,
+
+    "tcn_channels": 64,
+    "tcn_layers": 3,
+
+    "nb_filters": 24
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "pipeline": "supervised",
+
+  "training_dir": "./csi-bench-dataset",
+  "output_dir": "./results",
+
+  "task": "HumanActivityRecognition",
+  "available_models": ["prunedattentiongru"],
+
+  "win_len": 500,
+  "feature_size": 232,
+
+  "batch_size": 32,
+  "epochs": 1,
+  "learning_rate": 0.001,
+  "weight_decay": 1e-5,
+  "warmup_epochs": 5,
+  "patience": 15,
+  "seed": 42,
+
+  "test_splits": "all",
+
+  "model_params": {
+    "hidden_dim": 128,
+    "attention_dim": 32,
+    "use_augmentation": true,
+    "noise_prob": 0.5,
+    "shift_prob": 0.5,
+    "mixup_prob": 0.3,
+    "max_shift": 10
+  }
+}

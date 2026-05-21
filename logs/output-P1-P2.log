@@ -1,0 +1,2721 @@
+root_dir is /workspace/CSI-Bench-Real-WiFi-Sensing-Benchmark
+Loaded configuration from /workspace/CSI-Bench-Real-WiFi-Sensing-Benchmark/configs/local_default_config.json
+Using CUDA device: NVIDIA A100-SXM4-80GB
+CUDA version: 11.8
+Total GPU memory: 85.10 GB
+PyTorch version: 2.1.0
+Loaded configuration from configs/improved_all_models_har_config.json
+
+============================================================
+Starting training for model: inceptioncsi
+============================================================
+
+Running supervised learning: /opt/conda/bin/python /workspace/CSI-Bench-Real-WiFi-Sensing-Benchmark/scripts/train_supervised.py --data_dir="./csi-bench-dataset" --task_name=HumanActivityRecognition --model=inceptioncsi --batch_size=128 --epochs=100 --win_len=500 --feature_size=232 --save_dir="./results" --output_dir="./results" --num_workers=0 --use_root_data_path --no_pin_memory --test_splits="all" --learning_rate=0.0005 --weight_decay=1e-05 --warmup_epochs=5 --patience=20 --use_augmentation --use_domain_adversarial --domain_lambda=0.01 --da_start_threshold=0.6 --noise_prob=0.2 --shift_prob=0.2 --amplitude_prob=0.3 --mixup_prob=0.1 --max_shift=10 --label_smoothing=0.1 --hidden_dim=128 --attention_dim=32 --tcn_channels=128 --tcn_layers=5 --nb_filters=24 --inception_depth=6 --conf_d_model=128 --conf_layers=4 --bigru_hidden=96 --bigru_layers=2 --n_transformer_layers=1
+Disabling PyTorch because PyTorch >= 2.4 is required but found 2.1.0
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Running in local environment
+Experiment ID: params_0c09c5770e
+Results will be saved to: ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e
+Model checkpoints will be saved to: ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e
+Using device: cuda
+********************splits_dir is ./csi-bench-dataset/tasks/HumanActivityRecognition/splits
+Available test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test_id']
+Using test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test_id']
+Loading data from ./csi-bench-dataset for task HumanActivityRecognition...
+________________________DATA DEBUG________./csi-bench-dataset/tasks/HumanActivityRecognition
+Root directory does not contain required subfolders, will try standard paths.
+Checking path: ./csi-bench-dataset/tasks/HumanActivityRecognition
+  Has metadata: True, Has splits: True
+Using task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+
+==== Task Directory Contents (./csi-bench-dataset/tasks/HumanActivityRecognition) ====
+  Directory: metadata/ (3 items)
+    - device_mapping.json
+    - label_mapping.json
+    - sample_metadata.csv
+  Directory: splits/ (6 items)
+    - test_cross_device.json
+    - test_cross_env.json
+    - test_cross_user.json
+    - test_id.json
+    - train_id.json
+    - val_id.json
+  Directory: sub_Human/ (6 items)
+================================================
+
+Using metadata path: ./csi-bench-dataset/tasks/HumanActivityRecognition/metadata/sample_metadata.csv
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 15843 samples for HumanActivityRecognition - train_id
+Loaded 15843 samples for HumanActivityRecognition - train_id
+[Domain] encoders built: device: 8 classes, environment: 5 classes, user: 5 classes
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 3393 samples for HumanActivityRecognition - val_id
+Loaded 3393 samples for HumanActivityRecognition - val_id
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 4958 samples for HumanActivityRecognition - test_cross_device
+Loaded 4958 samples for HumanActivityRecognition - test_cross_device
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 5660 samples for HumanActivityRecognition - test_cross_env
+Loaded 5660 samples for HumanActivityRecognition - test_cross_env
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 5967 samples for HumanActivityRecognition - test_cross_user
+Loaded 5967 samples for HumanActivityRecognition - test_cross_user
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 3400 samples for HumanActivityRecognition - test_id
+Loaded 3400 samples for HumanActivityRecognition - test_id
+Detected 6 classes in the dataset
+Loaded 4 test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test']
+Creating INCEPTIONCSI model...
+Model parameters: 294374
+Using DomainAdversarialTrainer  (domain_lambda=0.01, domain_n_classes=[8, 5, 5])
+[DomainAdversarialTrainer] backbone_dim=128, domain_n_classes=[8, 5, 5], domain_lambda=0.01
+Starting supervised training phase...
+Epoch 1/100
+Train Loss: 1.7374, Val Loss: 1.7112
+Train Acc: 0.1887, Val Acc: 0.2526
+Time per sample: 0.000111 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 2/100
+Train Loss: 1.7247, Val Loss: 1.6861
+Train Acc: 0.2005, Val Acc: 0.2841
+Time per sample: 0.000098 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 3/100
+Train Loss: 1.6872, Val Loss: 1.6401
+Train Acc: 0.2556, Val Acc: 0.4047
+Time per sample: 0.000095 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 4/100
+Train Loss: 1.6356, Val Loss: 1.5846
+Train Acc: 0.3732, Val Acc: 0.4972
+Time per sample: 0.000093 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 5/100
+Train Loss: 1.5814, Val Loss: 1.5348
+Train Acc: 0.4650, Val Acc: 0.5102
+Time per sample: 0.000092 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 6/100
+Train Loss: 1.5364, Val Loss: 1.4929
+Train Acc: 0.4967, Val Acc: 0.5113
+Time per sample: 0.000090 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 7/100
+Train Loss: 1.5024, Val Loss: 1.4637
+Train Acc: 0.5022, Val Acc: 0.5113
+Time per sample: 0.000091 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 8/100
+Train Loss: 1.4726, Val Loss: 1.4418
+Train Acc: 0.5035, Val Acc: 0.5320
+Time per sample: 0.000093 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 9/100
+Train Loss: 1.4481, Val Loss: 1.4326
+Train Acc: 0.5115, Val Acc: 0.5252
+Time per sample: 0.000093 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 10/100
+Train Loss: 1.4276, Val Loss: 1.4325
+Train Acc: 0.5201, Val Acc: 0.5081
+Time per sample: 0.000096 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 11/100
+Train Loss: 1.4050, Val Loss: 1.4632
+Train Acc: 0.5300, Val Acc: 0.4798
+Time per sample: 0.000094 seconds
+Epoch 12/100
+Train Loss: 1.3890, Val Loss: 1.5118
+Train Acc: 0.5374, Val Acc: 0.4739
+Time per sample: 0.000091 seconds
+Epoch 13/100
+Train Loss: 1.3732, Val Loss: 1.5839
+Train Acc: 0.5448, Val Acc: 0.4630
+Time per sample: 0.000095 seconds
+Epoch 14/100
+Train Loss: 1.3612, Val Loss: 1.5664
+Train Acc: 0.5461, Val Acc: 0.4745
+Time per sample: 0.000096 seconds
+Epoch 15/100
+Train Loss: 1.3488, Val Loss: 1.5379
+Train Acc: 0.5533, Val Acc: 0.4895
+Time per sample: 0.000094 seconds
+Epoch 16/100
+Train Loss: 1.3359, Val Loss: 1.5188
+Train Acc: 0.5556, Val Acc: 0.4954
+Time per sample: 0.000098 seconds
+Epoch 17/100
+Train Loss: 1.3275, Val Loss: 1.5444
+Train Acc: 0.5584, Val Acc: 0.4963
+Time per sample: 0.000096 seconds
+Epoch 18/100
+Train Loss: 1.3174, Val Loss: 1.4818
+Train Acc: 0.5621, Val Acc: 0.5158
+Time per sample: 0.000097 seconds
+Epoch 19/100
+Train Loss: 1.3090, Val Loss: 1.4800
+Train Acc: 0.5664, Val Acc: 0.5202
+Time per sample: 0.000091 seconds
+Epoch 20/100
+Train Loss: 1.2968, Val Loss: 1.4348
+Train Acc: 0.5701, Val Acc: 0.5323
+Time per sample: 0.000092 seconds
+Epoch 21/100
+Train Loss: 1.2859, Val Loss: 1.4551
+Train Acc: 0.5753, Val Acc: 0.5343
+Time per sample: 0.000089 seconds
+Epoch 22/100
+Train Loss: 1.2775, Val Loss: 1.3827
+Train Acc: 0.5781, Val Acc: 0.5497
+Time per sample: 0.000090 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 23/100
+Train Loss: 1.2671, Val Loss: 1.3919
+Train Acc: 0.5823, Val Acc: 0.5438
+Time per sample: 0.000090 seconds
+Epoch 24/100
+Train Loss: 1.2552, Val Loss: 1.4349
+Train Acc: 0.5887, Val Acc: 0.5447
+Time per sample: 0.000090 seconds
+Epoch 25/100
+Train Loss: 1.2421, Val Loss: 1.3568
+Train Acc: 0.5945, Val Acc: 0.5597
+Time per sample: 0.000090 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 26/100
+Train Loss: 1.2331, Val Loss: 1.3446
+Train Acc: 0.5981, Val Acc: 0.5641
+Time per sample: 0.000091 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 27/100
+Train Loss: 1.2229, Val Loss: 1.3232
+Train Acc: 0.6018, Val Acc: 0.5741
+Time per sample: 0.000090 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 28/100
+[DomainAdversarialTrainer] DA gate opened at epoch 27 (train_acc=0.602 >= threshold=0.6)
+Train Loss: 1.2133, Val Loss: 1.2774
+Train Acc: 0.6079, Val Acc: 0.5906
+Time per sample: 0.000109 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 29/100
+Train Loss: 1.1984, Val Loss: 1.2854
+Train Acc: 0.6131, Val Acc: 0.5847
+Time per sample: 0.000108 seconds
+Epoch 30/100
+Train Loss: 1.1896, Val Loss: 1.2945
+Train Acc: 0.6170, Val Acc: 0.5921
+Time per sample: 0.000106 seconds
+Epoch 31/100
+Train Loss: 1.1834, Val Loss: 1.3262
+Train Acc: 0.6210, Val Acc: 0.5791
+Time per sample: 0.000105 seconds
+Epoch 32/100
+Train Loss: 1.1716, Val Loss: 1.2713
+Train Acc: 0.6267, Val Acc: 0.5945
+Time per sample: 0.000107 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 33/100
+Train Loss: 1.1595, Val Loss: 1.2262
+Train Acc: 0.6302, Val Acc: 0.6127
+Time per sample: 0.000114 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 34/100
+Train Loss: 1.1523, Val Loss: 1.3516
+Train Acc: 0.6367, Val Acc: 0.5771
+Time per sample: 0.000113 seconds
+Epoch 35/100
+Train Loss: 1.1413, Val Loss: 1.1972
+Train Acc: 0.6402, Val Acc: 0.6266
+Time per sample: 0.000107 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 36/100
+Train Loss: 1.1315, Val Loss: 1.2650
+Train Acc: 0.6472, Val Acc: 0.6051
+Time per sample: 0.000107 seconds
+Epoch 37/100
+Train Loss: 1.1214, Val Loss: 1.1715
+Train Acc: 0.6491, Val Acc: 0.6425
+Time per sample: 0.000110 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 38/100
+Train Loss: 1.1126, Val Loss: 1.1813
+Train Acc: 0.6550, Val Acc: 0.6328
+Time per sample: 0.000111 seconds
+Epoch 39/100
+Train Loss: 1.1000, Val Loss: 1.2166
+Train Acc: 0.6612, Val Acc: 0.6219
+Time per sample: 0.000111 seconds
+Epoch 40/100
+Train Loss: 1.0947, Val Loss: 1.2135
+Train Acc: 0.6662, Val Acc: 0.6340
+Time per sample: 0.000112 seconds
+Epoch 41/100
+Train Loss: 1.0819, Val Loss: 1.1518
+Train Acc: 0.6687, Val Acc: 0.6569
+Time per sample: 0.000108 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 42/100
+Train Loss: 1.0696, Val Loss: 1.1794
+Train Acc: 0.6792, Val Acc: 0.6446
+Time per sample: 0.000110 seconds
+Epoch 43/100
+Train Loss: 1.0614, Val Loss: 1.1341
+Train Acc: 0.6831, Val Acc: 0.6611
+Time per sample: 0.000112 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 44/100
+Train Loss: 1.0534, Val Loss: 1.1682
+Train Acc: 0.6863, Val Acc: 0.6475
+Time per sample: 0.000115 seconds
+Epoch 45/100
+Train Loss: 1.0402, Val Loss: 1.1797
+Train Acc: 0.6940, Val Acc: 0.6493
+Time per sample: 0.000109 seconds
+Epoch 46/100
+Train Loss: 1.0302, Val Loss: 1.2219
+Train Acc: 0.6978, Val Acc: 0.6434
+Time per sample: 0.000107 seconds
+Epoch 47/100
+Train Loss: 1.0202, Val Loss: 1.1315
+Train Acc: 0.7041, Val Acc: 0.6655
+Time per sample: 0.000107 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 48/100
+Train Loss: 1.0091, Val Loss: 1.1363
+Train Acc: 0.7111, Val Acc: 0.6640
+Time per sample: 0.000109 seconds
+Epoch 49/100
+Train Loss: 1.0049, Val Loss: 1.1733
+Train Acc: 0.7148, Val Acc: 0.6681
+Time per sample: 0.000113 seconds
+Epoch 50/100
+Train Loss: 0.9914, Val Loss: 1.0898
+Train Acc: 0.7217, Val Acc: 0.6805
+Time per sample: 0.000112 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 51/100
+Train Loss: 0.9878, Val Loss: 1.1318
+Train Acc: 0.7227, Val Acc: 0.6687
+Time per sample: 0.000109 seconds
+Epoch 52/100
+Train Loss: 0.9726, Val Loss: 1.0781
+Train Acc: 0.7296, Val Acc: 0.6891
+Time per sample: 0.000113 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 53/100
+Train Loss: 0.9648, Val Loss: 1.1239
+Train Acc: 0.7341, Val Acc: 0.6746
+Time per sample: 0.000112 seconds
+Epoch 54/100
+Train Loss: 0.9493, Val Loss: 1.0611
+Train Acc: 0.7461, Val Acc: 0.6991
+Time per sample: 0.000109 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 55/100
+Train Loss: 0.9491, Val Loss: 1.1190
+Train Acc: 0.7451, Val Acc: 0.6770
+Time per sample: 0.000111 seconds
+Epoch 56/100
+Train Loss: 0.9360, Val Loss: 1.1532
+Train Acc: 0.7492, Val Acc: 0.6693
+Time per sample: 0.000110 seconds
+Epoch 57/100
+Train Loss: 0.9226, Val Loss: 1.1145
+Train Acc: 0.7608, Val Acc: 0.6826
+Time per sample: 0.000108 seconds
+Epoch 58/100
+Train Loss: 0.9138, Val Loss: 1.0715
+Train Acc: 0.7668, Val Acc: 0.6908
+Time per sample: 0.000109 seconds
+Epoch 59/100
+Train Loss: 0.9035, Val Loss: 1.1136
+Train Acc: 0.7702, Val Acc: 0.6808
+Time per sample: 0.000109 seconds
+Epoch 60/100
+Train Loss: 0.8931, Val Loss: 1.0571
+Train Acc: 0.7764, Val Acc: 0.7009
+Time per sample: 0.000108 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 61/100
+Train Loss: 0.8818, Val Loss: 1.1386
+Train Acc: 0.7841, Val Acc: 0.6891
+Time per sample: 0.000106 seconds
+Epoch 62/100
+Train Loss: 0.8737, Val Loss: 1.1223
+Train Acc: 0.7905, Val Acc: 0.6891
+Time per sample: 0.000107 seconds
+Epoch 63/100
+Train Loss: 0.8660, Val Loss: 1.0653
+Train Acc: 0.7942, Val Acc: 0.7076
+Time per sample: 0.000106 seconds
+Epoch 64/100
+Train Loss: 0.8537, Val Loss: 1.0608
+Train Acc: 0.8005, Val Acc: 0.7106
+Time per sample: 0.000106 seconds
+Epoch 65/100
+Train Loss: 0.8460, Val Loss: 1.0522
+Train Acc: 0.8033, Val Acc: 0.7103
+Time per sample: 0.000105 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 66/100
+Train Loss: 0.8353, Val Loss: 1.0504
+Train Acc: 0.8115, Val Acc: 0.7197
+Time per sample: 0.000109 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 67/100
+Train Loss: 0.8252, Val Loss: 1.0836
+Train Acc: 0.8172, Val Acc: 0.6973
+Time per sample: 0.000113 seconds
+Epoch 68/100
+Train Loss: 0.8141, Val Loss: 1.0660
+Train Acc: 0.8218, Val Acc: 0.7044
+Time per sample: 0.000113 seconds
+Epoch 69/100
+Train Loss: 0.8115, Val Loss: 1.0201
+Train Acc: 0.8253, Val Acc: 0.7227
+Time per sample: 0.000110 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 70/100
+Train Loss: 0.7997, Val Loss: 1.0609
+Train Acc: 0.8280, Val Acc: 0.7073
+Time per sample: 0.000108 seconds
+Epoch 71/100
+Train Loss: 0.7887, Val Loss: 1.0409
+Train Acc: 0.8354, Val Acc: 0.7091
+Time per sample: 0.000107 seconds
+Epoch 72/100
+Train Loss: 0.7808, Val Loss: 1.0786
+Train Acc: 0.8414, Val Acc: 0.7050
+Time per sample: 0.000107 seconds
+Epoch 73/100
+Train Loss: 0.7677, Val Loss: 1.0736
+Train Acc: 0.8489, Val Acc: 0.7179
+Time per sample: 0.000106 seconds
+Epoch 74/100
+Train Loss: 0.7668, Val Loss: 1.0396
+Train Acc: 0.8505, Val Acc: 0.7141
+Time per sample: 0.000107 seconds
+Epoch 75/100
+Train Loss: 0.7548, Val Loss: 1.0403
+Train Acc: 0.8568, Val Acc: 0.7179
+Time per sample: 0.000107 seconds
+Epoch 76/100
+Train Loss: 0.7483, Val Loss: 1.0239
+Train Acc: 0.8619, Val Acc: 0.7244
+Time per sample: 0.000109 seconds
+Epoch 77/100
+Train Loss: 0.7382, Val Loss: 1.0240
+Train Acc: 0.8659, Val Acc: 0.7353
+Time per sample: 0.000111 seconds
+Epoch 78/100
+Train Loss: 0.7340, Val Loss: 1.0277
+Train Acc: 0.8669, Val Acc: 0.7342
+Time per sample: 0.000108 seconds
+Epoch 79/100
+Train Loss: 0.7200, Val Loss: 1.0133
+Train Acc: 0.8786, Val Acc: 0.7294
+Time per sample: 0.000112 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 80/100
+Train Loss: 0.7157, Val Loss: 1.0249
+Train Acc: 0.8774, Val Acc: 0.7321
+Time per sample: 0.000107 seconds
+Epoch 81/100
+Train Loss: 0.7105, Val Loss: 1.0334
+Train Acc: 0.8798, Val Acc: 0.7318
+Time per sample: 0.000108 seconds
+Epoch 82/100
+Train Loss: 0.6986, Val Loss: 0.9885
+Train Acc: 0.8894, Val Acc: 0.7468
+Time per sample: 0.000107 seconds
+Best model saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/best_model.pt
+Epoch 83/100
+Train Loss: 0.6925, Val Loss: 1.0485
+Train Acc: 0.8928, Val Acc: 0.7215
+Time per sample: 0.000110 seconds
+Epoch 84/100
+Train Loss: 0.6851, Val Loss: 1.0160
+Train Acc: 0.8941, Val Acc: 0.7359
+Time per sample: 0.000112 seconds
+Epoch 85/100
+Train Loss: 0.6806, Val Loss: 1.0306
+Train Acc: 0.9008, Val Acc: 0.7291
+Time per sample: 0.000108 seconds
+Epoch 86/100
+Train Loss: 0.6770, Val Loss: 1.0854
+Train Acc: 0.8989, Val Acc: 0.7345
+Time per sample: 0.000115 seconds
+Epoch 87/100
+Train Loss: 0.6611, Val Loss: 1.0245
+Train Acc: 0.9107, Val Acc: 0.7353
+Time per sample: 0.000111 seconds
+Epoch 88/100
+Train Loss: 0.6560, Val Loss: 1.0728
+Train Acc: 0.9121, Val Acc: 0.7238
+Time per sample: 0.000106 seconds
+Epoch 89/100
+Train Loss: 0.6489, Val Loss: 1.0320
+Train Acc: 0.9152, Val Acc: 0.7336
+Time per sample: 0.000108 seconds
+Epoch 90/100
+Train Loss: 0.6444, Val Loss: 1.0379
+Train Acc: 0.9183, Val Acc: 0.7327
+Time per sample: 0.000117 seconds
+Epoch 91/100
+Train Loss: 0.6369, Val Loss: 1.0270
+Train Acc: 0.9224, Val Acc: 0.7377
+Time per sample: 0.000116 seconds
+Epoch 92/100
+Train Loss: 0.6287, Val Loss: 1.0287
+Train Acc: 0.9279, Val Acc: 0.7362
+Time per sample: 0.000110 seconds
+Epoch 93/100
+Train Loss: 0.6276, Val Loss: 1.0098
+Train Acc: 0.9272, Val Acc: 0.7459
+Time per sample: 0.000109 seconds
+Epoch 94/100
+Train Loss: 0.6211, Val Loss: 1.0703
+Train Acc: 0.9323, Val Acc: 0.7118
+Time per sample: 0.000111 seconds
+Epoch 95/100
+Train Loss: 0.6181, Val Loss: 1.0071
+Train Acc: 0.9306, Val Acc: 0.7454
+Time per sample: 0.000115 seconds
+Epoch 96/100
+Train Loss: 0.6096, Val Loss: 1.0637
+Train Acc: 0.9367, Val Acc: 0.7238
+Time per sample: 0.000110 seconds
+Epoch 97/100
+Train Loss: 0.6100, Val Loss: 1.1202
+Train Acc: 0.9364, Val Acc: 0.7138
+Time per sample: 0.000108 seconds
+Epoch 98/100
+Train Loss: 0.6015, Val Loss: 1.1159
+Train Acc: 0.9414, Val Acc: 0.6950
+Time per sample: 0.000108 seconds
+Epoch 99/100
+Train Loss: 0.5926, Val Loss: 1.0254
+Train Acc: 0.9482, Val Acc: 0.7501
+Time per sample: 0.000114 seconds
+Epoch 100/100
+Train Loss: 0.5910, Val Loss: 1.0096
+Train Acc: 0.9474, Val Acc: 0.7465
+Time per sample: 0.000113 seconds
+
+Evaluating on test splits:
+Evaluating on test_cross_device split:
+Predictions shape: (4958,), unique values: [0 1 2 3 4]
+Targets shape: (4958,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/classification_report_unknown.csv
+test_cross_device accuracy: 0.4387, F1-score: 0.4210
+Generating confusion matrix for test_cross_device split...
+Evaluating on test_cross_env split:
+Predictions shape: (5660,), unique values: [0 1 2 3 4]
+Targets shape: (5660,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/classification_report_unknown.csv
+test_cross_env accuracy: 0.3625, F1-score: 0.3445
+Generating confusion matrix for test_cross_env split...
+Evaluating on test_cross_user split:
+Predictions shape: (5967,), unique values: [0 1 2 3 4]
+Targets shape: (5967,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/classification_report_unknown.csv
+test_cross_user accuracy: 0.5036, F1-score: 0.4333
+Generating confusion matrix for test_cross_user split...
+Evaluating on test split:
+Predictions shape: (3400,), unique values: [0 1 2 3 4]
+Targets shape: (3400,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/classification_report_unknown.csv
+test accuracy: 0.7488, F1-score: 0.7377
+Generating confusion matrix for test split...
+***********************FEW_SHOTFalse
+
+Test Results Summary:
+Split                     Accuracy        F1-Score       
+-------------------------------------------------------
+test_cross_device         0.4387          0.4210         
+test_cross_env            0.3625          0.3445         
+test_cross_user           0.5036          0.4333         
+test                      0.7488          0.7377         
+
+Training and evaluation completed.
+Best model from epoch 82, saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e
+Results saved to ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e
+Not the best model. Current validation accuracy: 0.7468 (best: 0.8482)
+Supervised learning completed successfully.
+Configuration saved to model directory: ./results/HumanActivityRecognition/inceptioncsi/params_0c09c5770e/supervised_config.json
+
+Model inceptioncsi training successful
+Running time: 80.79 minutes
+
+============================================================
+Starting training for model: lighttcn
+============================================================
+
+Running supervised learning: /opt/conda/bin/python /workspace/CSI-Bench-Real-WiFi-Sensing-Benchmark/scripts/train_supervised.py --data_dir="./csi-bench-dataset" --task_name=HumanActivityRecognition --model=lighttcn --batch_size=128 --epochs=100 --win_len=500 --feature_size=232 --save_dir="./results" --output_dir="./results" --num_workers=0 --use_root_data_path --no_pin_memory --test_splits="all" --learning_rate=0.0005 --weight_decay=1e-05 --warmup_epochs=5 --patience=20 --use_augmentation --use_domain_adversarial --domain_lambda=0.01 --da_start_threshold=0.6 --noise_prob=0.2 --shift_prob=0.2 --amplitude_prob=0.3 --mixup_prob=0.1 --max_shift=10 --label_smoothing=0.1 --hidden_dim=128 --attention_dim=32 --tcn_channels=128 --tcn_layers=5 --nb_filters=24 --inception_depth=6 --conf_d_model=128 --conf_layers=4 --bigru_hidden=96 --bigru_layers=2 --n_transformer_layers=1
+Disabling PyTorch because PyTorch >= 2.4 is required but found 2.1.0
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Running in local environment
+Experiment ID: params_0c09c5770e
+Results will be saved to: ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e
+Model checkpoints will be saved to: ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e
+Using device: cuda
+********************splits_dir is ./csi-bench-dataset/tasks/HumanActivityRecognition/splits
+Available test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test_id']
+Using test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test_id']
+Loading data from ./csi-bench-dataset for task HumanActivityRecognition...
+________________________DATA DEBUG________./csi-bench-dataset/tasks/HumanActivityRecognition
+Root directory does not contain required subfolders, will try standard paths.
+Checking path: ./csi-bench-dataset/tasks/HumanActivityRecognition
+  Has metadata: True, Has splits: True
+Using task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+
+==== Task Directory Contents (./csi-bench-dataset/tasks/HumanActivityRecognition) ====
+  Directory: metadata/ (3 items)
+    - device_mapping.json
+    - label_mapping.json
+    - sample_metadata.csv
+  Directory: splits/ (6 items)
+    - test_cross_device.json
+    - test_cross_env.json
+    - test_cross_user.json
+    - test_id.json
+    - train_id.json
+    - val_id.json
+  Directory: sub_Human/ (6 items)
+================================================
+
+Using metadata path: ./csi-bench-dataset/tasks/HumanActivityRecognition/metadata/sample_metadata.csv
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 15843 samples for HumanActivityRecognition - train_id
+Loaded 15843 samples for HumanActivityRecognition - train_id
+[Domain] encoders built: device: 8 classes, environment: 5 classes, user: 5 classes
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 3393 samples for HumanActivityRecognition - val_id
+Loaded 3393 samples for HumanActivityRecognition - val_id
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 4958 samples for HumanActivityRecognition - test_cross_device
+Loaded 4958 samples for HumanActivityRecognition - test_cross_device
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 5660 samples for HumanActivityRecognition - test_cross_env
+Loaded 5660 samples for HumanActivityRecognition - test_cross_env
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 5967 samples for HumanActivityRecognition - test_cross_user
+Loaded 5967 samples for HumanActivityRecognition - test_cross_user
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 3400 samples for HumanActivityRecognition - test_id
+Loaded 3400 samples for HumanActivityRecognition - test_id
+Detected 6 classes in the dataset
+Loaded 4 test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test']
+Creating LIGHTTCN model...
+Model parameters: 162343
+Using DomainAdversarialTrainer  (domain_lambda=0.01, domain_n_classes=[8, 5, 5])
+[DomainAdversarialTrainer] backbone_dim=160, domain_n_classes=[8, 5, 5], domain_lambda=0.01
+Starting supervised training phase...
+Epoch 1/100
+Train Loss: 2.1187, Val Loss: 2.1129
+Train Acc: 0.1105, Val Acc: 0.0987
+Time per sample: 0.000083 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 2/100
+Train Loss: 2.0938, Val Loss: 2.0639
+Train Acc: 0.1110, Val Acc: 0.0987
+Time per sample: 0.000076 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 3/100
+Train Loss: 2.0211, Val Loss: 1.9656
+Train Acc: 0.1108, Val Acc: 0.0987
+Time per sample: 0.000075 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 4/100
+Train Loss: 1.9020, Val Loss: 1.8248
+Train Acc: 0.1127, Val Acc: 0.1079
+Time per sample: 0.000071 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 5/100
+Train Loss: 1.7564, Val Loss: 1.6800
+Train Acc: 0.1861, Val Acc: 0.3522
+Time per sample: 0.000070 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 6/100
+Train Loss: 1.6295, Val Loss: 1.5670
+Train Acc: 0.4176, Val Acc: 0.5102
+Time per sample: 0.000070 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 7/100
+Train Loss: 1.5365, Val Loss: 1.4965
+Train Acc: 0.5002, Val Acc: 0.5113
+Time per sample: 0.000069 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 8/100
+Train Loss: 1.4896, Val Loss: 1.4672
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000069 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 9/100
+Train Loss: 1.4702, Val Loss: 1.4549
+Train Acc: 0.5039, Val Acc: 0.5113
+Time per sample: 0.000072 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 10/100
+Train Loss: 1.4614, Val Loss: 1.4472
+Train Acc: 0.5036, Val Acc: 0.5113
+Time per sample: 0.000069 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 11/100
+Train Loss: 1.4552, Val Loss: 1.4422
+Train Acc: 0.5042, Val Acc: 0.5113
+Time per sample: 0.000073 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 12/100
+Train Loss: 1.4503, Val Loss: 1.4382
+Train Acc: 0.5046, Val Acc: 0.5113
+Time per sample: 0.000070 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 13/100
+Train Loss: 1.4440, Val Loss: 1.4347
+Train Acc: 0.5046, Val Acc: 0.5137
+Time per sample: 0.000072 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 14/100
+Train Loss: 1.4411, Val Loss: 1.4293
+Train Acc: 0.5053, Val Acc: 0.5155
+Time per sample: 0.000076 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 15/100
+Train Loss: 1.4361, Val Loss: 1.4246
+Train Acc: 0.5060, Val Acc: 0.5220
+Time per sample: 0.000073 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 16/100
+Train Loss: 1.4306, Val Loss: 1.4230
+Train Acc: 0.5065, Val Acc: 0.5258
+Time per sample: 0.000074 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 17/100
+Train Loss: 1.4249, Val Loss: 1.4190
+Train Acc: 0.5087, Val Acc: 0.5284
+Time per sample: 0.000069 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 18/100
+Train Loss: 1.4189, Val Loss: 1.4141
+Train Acc: 0.5123, Val Acc: 0.5311
+Time per sample: 0.000074 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 19/100
+Train Loss: 1.4122, Val Loss: 1.4087
+Train Acc: 0.5159, Val Acc: 0.5317
+Time per sample: 0.000072 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 20/100
+Train Loss: 1.4049, Val Loss: 1.4026
+Train Acc: 0.5179, Val Acc: 0.5337
+Time per sample: 0.000075 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 21/100
+Train Loss: 1.3976, Val Loss: 1.4001
+Train Acc: 0.5217, Val Acc: 0.5385
+Time per sample: 0.000076 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 22/100
+Train Loss: 1.3907, Val Loss: 1.3881
+Train Acc: 0.5250, Val Acc: 0.5385
+Time per sample: 0.000075 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 23/100
+Train Loss: 1.3837, Val Loss: 1.3866
+Train Acc: 0.5259, Val Acc: 0.5391
+Time per sample: 0.000072 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 24/100
+Train Loss: 1.3766, Val Loss: 1.3778
+Train Acc: 0.5294, Val Acc: 0.5426
+Time per sample: 0.000076 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 25/100
+Train Loss: 1.3693, Val Loss: 1.3752
+Train Acc: 0.5319, Val Acc: 0.5435
+Time per sample: 0.000071 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 26/100
+Train Loss: 1.3625, Val Loss: 1.3694
+Train Acc: 0.5344, Val Acc: 0.5458
+Time per sample: 0.000076 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 27/100
+Train Loss: 1.3547, Val Loss: 1.3588
+Train Acc: 0.5358, Val Acc: 0.5500
+Time per sample: 0.000073 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 28/100
+Train Loss: 1.3469, Val Loss: 1.3513
+Train Acc: 0.5419, Val Acc: 0.5538
+Time per sample: 0.000075 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 29/100
+Train Loss: 1.3409, Val Loss: 1.3470
+Train Acc: 0.5419, Val Acc: 0.5561
+Time per sample: 0.000075 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 30/100
+Train Loss: 1.3345, Val Loss: 1.3474
+Train Acc: 0.5460, Val Acc: 0.5520
+Time per sample: 0.000073 seconds
+Epoch 31/100
+Train Loss: 1.3270, Val Loss: 1.3341
+Train Acc: 0.5483, Val Acc: 0.5641
+Time per sample: 0.000072 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 32/100
+Train Loss: 1.3190, Val Loss: 1.3276
+Train Acc: 0.5544, Val Acc: 0.5659
+Time per sample: 0.000075 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 33/100
+Train Loss: 1.3128, Val Loss: 1.3174
+Train Acc: 0.5565, Val Acc: 0.5738
+Time per sample: 0.000074 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 34/100
+Train Loss: 1.3048, Val Loss: 1.3151
+Train Acc: 0.5596, Val Acc: 0.5691
+Time per sample: 0.000076 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 35/100
+Train Loss: 1.2998, Val Loss: 1.3185
+Train Acc: 0.5613, Val Acc: 0.5641
+Time per sample: 0.000075 seconds
+Epoch 36/100
+Train Loss: 1.2904, Val Loss: 1.3111
+Train Acc: 0.5672, Val Acc: 0.5697
+Time per sample: 0.000075 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 37/100
+Train Loss: 1.2846, Val Loss: 1.3048
+Train Acc: 0.5677, Val Acc: 0.5665
+Time per sample: 0.000076 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 38/100
+Train Loss: 1.2768, Val Loss: 1.2940
+Train Acc: 0.5712, Val Acc: 0.5726
+Time per sample: 0.000076 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 39/100
+Train Loss: 1.2698, Val Loss: 1.2950
+Train Acc: 0.5744, Val Acc: 0.5715
+Time per sample: 0.000075 seconds
+Epoch 40/100
+Train Loss: 1.2649, Val Loss: 1.2924
+Train Acc: 0.5777, Val Acc: 0.5700
+Time per sample: 0.000075 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 41/100
+Train Loss: 1.2584, Val Loss: 1.2829
+Train Acc: 0.5809, Val Acc: 0.5747
+Time per sample: 0.000074 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 42/100
+Train Loss: 1.2484, Val Loss: 1.2803
+Train Acc: 0.5848, Val Acc: 0.5765
+Time per sample: 0.000076 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 43/100
+Train Loss: 1.2394, Val Loss: 1.2680
+Train Acc: 0.5914, Val Acc: 0.5862
+Time per sample: 0.000070 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 44/100
+Train Loss: 1.2346, Val Loss: 1.2594
+Train Acc: 0.5918, Val Acc: 0.5874
+Time per sample: 0.000073 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 45/100
+Train Loss: 1.2281, Val Loss: 1.2521
+Train Acc: 0.5986, Val Acc: 0.5889
+Time per sample: 0.000071 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 46/100
+Train Loss: 1.2208, Val Loss: 1.2440
+Train Acc: 0.5993, Val Acc: 0.5977
+Time per sample: 0.000072 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 47/100
+Train Loss: 1.2133, Val Loss: 1.2455
+Train Acc: 0.6055, Val Acc: 0.5880
+Time per sample: 0.000074 seconds
+Epoch 48/100
+[DomainAdversarialTrainer] DA gate opened at epoch 47 (train_acc=0.606 >= threshold=0.6)
+Train Loss: 1.2064, Val Loss: 1.2445
+Train Acc: 0.6097, Val Acc: 0.5900
+Time per sample: 0.000093 seconds
+Epoch 49/100
+Train Loss: 1.1976, Val Loss: 1.2299
+Train Acc: 0.6145, Val Acc: 0.6060
+Time per sample: 0.000087 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 50/100
+Train Loss: 1.1895, Val Loss: 1.2291
+Train Acc: 0.6152, Val Acc: 0.6006
+Time per sample: 0.000085 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 51/100
+Train Loss: 1.1876, Val Loss: 1.2284
+Train Acc: 0.6179, Val Acc: 0.5995
+Time per sample: 0.000086 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 52/100
+Train Loss: 1.1779, Val Loss: 1.2314
+Train Acc: 0.6251, Val Acc: 0.5915
+Time per sample: 0.000090 seconds
+Epoch 53/100
+Train Loss: 1.1702, Val Loss: 1.2227
+Train Acc: 0.6289, Val Acc: 0.5971
+Time per sample: 0.000088 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 54/100
+Train Loss: 1.1643, Val Loss: 1.2118
+Train Acc: 0.6311, Val Acc: 0.6068
+Time per sample: 0.000088 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 55/100
+Train Loss: 1.1561, Val Loss: 1.2105
+Train Acc: 0.6350, Val Acc: 0.6068
+Time per sample: 0.000094 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 56/100
+Train Loss: 1.1513, Val Loss: 1.2121
+Train Acc: 0.6379, Val Acc: 0.6062
+Time per sample: 0.000088 seconds
+Epoch 57/100
+Train Loss: 1.1448, Val Loss: 1.2022
+Train Acc: 0.6438, Val Acc: 0.6077
+Time per sample: 0.000087 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 58/100
+Train Loss: 1.1382, Val Loss: 1.1916
+Train Acc: 0.6446, Val Acc: 0.6198
+Time per sample: 0.000090 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 59/100
+Train Loss: 1.1289, Val Loss: 1.1872
+Train Acc: 0.6523, Val Acc: 0.6207
+Time per sample: 0.000091 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 60/100
+Train Loss: 1.1255, Val Loss: 1.1895
+Train Acc: 0.6536, Val Acc: 0.6148
+Time per sample: 0.000087 seconds
+Epoch 61/100
+Train Loss: 1.1149, Val Loss: 1.1996
+Train Acc: 0.6590, Val Acc: 0.6160
+Time per sample: 0.000086 seconds
+Epoch 62/100
+Train Loss: 1.1092, Val Loss: 1.1674
+Train Acc: 0.6645, Val Acc: 0.6325
+Time per sample: 0.000086 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 63/100
+Train Loss: 1.1067, Val Loss: 1.1816
+Train Acc: 0.6669, Val Acc: 0.6213
+Time per sample: 0.000086 seconds
+Epoch 64/100
+Train Loss: 1.0942, Val Loss: 1.1697
+Train Acc: 0.6715, Val Acc: 0.6281
+Time per sample: 0.000086 seconds
+Epoch 65/100
+Train Loss: 1.0891, Val Loss: 1.1593
+Train Acc: 0.6740, Val Acc: 0.6369
+Time per sample: 0.000086 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 66/100
+Train Loss: 1.0808, Val Loss: 1.1683
+Train Acc: 0.6810, Val Acc: 0.6310
+Time per sample: 0.000086 seconds
+Epoch 67/100
+Train Loss: 1.0755, Val Loss: 1.1822
+Train Acc: 0.6840, Val Acc: 0.6263
+Time per sample: 0.000087 seconds
+Epoch 68/100
+Train Loss: 1.0665, Val Loss: 1.1582
+Train Acc: 0.6872, Val Acc: 0.6334
+Time per sample: 0.000086 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 69/100
+Train Loss: 1.0593, Val Loss: 1.1380
+Train Acc: 0.6910, Val Acc: 0.6428
+Time per sample: 0.000088 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 70/100
+Train Loss: 1.0527, Val Loss: 1.1290
+Train Acc: 0.6978, Val Acc: 0.6537
+Time per sample: 0.000092 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 71/100
+Train Loss: 1.0469, Val Loss: 1.1452
+Train Acc: 0.6978, Val Acc: 0.6466
+Time per sample: 0.000089 seconds
+Epoch 72/100
+Train Loss: 1.0391, Val Loss: 1.1229
+Train Acc: 0.7041, Val Acc: 0.6525
+Time per sample: 0.000087 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 73/100
+Train Loss: 1.0303, Val Loss: 1.1143
+Train Acc: 0.7094, Val Acc: 0.6620
+Time per sample: 0.000086 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 74/100
+Train Loss: 1.0258, Val Loss: 1.1138
+Train Acc: 0.7107, Val Acc: 0.6628
+Time per sample: 0.000089 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 75/100
+Train Loss: 1.0160, Val Loss: 1.1250
+Train Acc: 0.7187, Val Acc: 0.6584
+Time per sample: 0.000086 seconds
+Epoch 76/100
+Train Loss: 1.0142, Val Loss: 1.1116
+Train Acc: 0.7196, Val Acc: 0.6646
+Time per sample: 0.000087 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 77/100
+Train Loss: 1.0016, Val Loss: 1.1120
+Train Acc: 0.7254, Val Acc: 0.6625
+Time per sample: 0.000086 seconds
+Epoch 78/100
+Train Loss: 0.9954, Val Loss: 1.1070
+Train Acc: 0.7306, Val Acc: 0.6655
+Time per sample: 0.000086 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 79/100
+Train Loss: 0.9852, Val Loss: 1.1014
+Train Acc: 0.7338, Val Acc: 0.6652
+Time per sample: 0.000085 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 80/100
+Train Loss: 0.9806, Val Loss: 1.1094
+Train Acc: 0.7363, Val Acc: 0.6693
+Time per sample: 0.000085 seconds
+Epoch 81/100
+Train Loss: 0.9778, Val Loss: 1.1160
+Train Acc: 0.7379, Val Acc: 0.6620
+Time per sample: 0.000086 seconds
+Epoch 82/100
+Train Loss: 0.9694, Val Loss: 1.1062
+Train Acc: 0.7435, Val Acc: 0.6661
+Time per sample: 0.000087 seconds
+Epoch 83/100
+Train Loss: 0.9630, Val Loss: 1.1046
+Train Acc: 0.7484, Val Acc: 0.6696
+Time per sample: 0.000089 seconds
+Epoch 84/100
+Train Loss: 0.9573, Val Loss: 1.0946
+Train Acc: 0.7460, Val Acc: 0.6802
+Time per sample: 0.000088 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 85/100
+Train Loss: 0.9513, Val Loss: 1.0933
+Train Acc: 0.7557, Val Acc: 0.6796
+Time per sample: 0.000087 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 86/100
+Train Loss: 0.9433, Val Loss: 1.0923
+Train Acc: 0.7551, Val Acc: 0.6779
+Time per sample: 0.000093 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 87/100
+Train Loss: 0.9371, Val Loss: 1.0825
+Train Acc: 0.7609, Val Acc: 0.6790
+Time per sample: 0.000089 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 88/100
+Train Loss: 0.9324, Val Loss: 1.0977
+Train Acc: 0.7636, Val Acc: 0.6776
+Time per sample: 0.000086 seconds
+Epoch 89/100
+Train Loss: 0.9251, Val Loss: 1.0646
+Train Acc: 0.7677, Val Acc: 0.6876
+Time per sample: 0.000090 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 90/100
+Train Loss: 0.9175, Val Loss: 1.0792
+Train Acc: 0.7683, Val Acc: 0.6814
+Time per sample: 0.000091 seconds
+Epoch 91/100
+Train Loss: 0.9068, Val Loss: 1.0708
+Train Acc: 0.7789, Val Acc: 0.6858
+Time per sample: 0.000087 seconds
+Epoch 92/100
+Train Loss: 0.9108, Val Loss: 1.0685
+Train Acc: 0.7741, Val Acc: 0.6905
+Time per sample: 0.000089 seconds
+Epoch 93/100
+Train Loss: 0.9012, Val Loss: 1.0603
+Train Acc: 0.7807, Val Acc: 0.6964
+Time per sample: 0.000091 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 94/100
+Train Loss: 0.8960, Val Loss: 1.0609
+Train Acc: 0.7827, Val Acc: 0.6967
+Time per sample: 0.000091 seconds
+Epoch 95/100
+Train Loss: 0.8901, Val Loss: 1.0563
+Train Acc: 0.7861, Val Acc: 0.6988
+Time per sample: 0.000092 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 96/100
+Train Loss: 0.8823, Val Loss: 1.0640
+Train Acc: 0.7918, Val Acc: 0.6976
+Time per sample: 0.000086 seconds
+Epoch 97/100
+Train Loss: 0.8765, Val Loss: 1.0829
+Train Acc: 0.7947, Val Acc: 0.6891
+Time per sample: 0.000087 seconds
+Epoch 98/100
+Train Loss: 0.8741, Val Loss: 1.0479
+Train Acc: 0.7954, Val Acc: 0.6988
+Time per sample: 0.000087 seconds
+Best model saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/best_model.pt
+Epoch 99/100
+Train Loss: 0.8665, Val Loss: 1.0546
+Train Acc: 0.8005, Val Acc: 0.6964
+Time per sample: 0.000095 seconds
+Epoch 100/100
+Train Loss: 0.8621, Val Loss: 1.0554
+Train Acc: 0.8022, Val Acc: 0.6982
+Time per sample: 0.000087 seconds
+
+Evaluating on test splits:
+Evaluating on test_cross_device split:
+Predictions shape: (4958,), unique values: [0 1 2 3 4]
+Targets shape: (4958,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/classification_report_unknown.csv
+test_cross_device accuracy: 0.4710, F1-score: 0.4466
+Generating confusion matrix for test_cross_device split...
+Evaluating on test_cross_env split:
+Predictions shape: (5660,), unique values: [0 1 2 3 4]
+Targets shape: (5660,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/classification_report_unknown.csv
+test_cross_env accuracy: 0.3311, F1-score: 0.3334
+Generating confusion matrix for test_cross_env split...
+Evaluating on test_cross_user split:
+Predictions shape: (5967,), unique values: [0 1 2 3 4]
+Targets shape: (5967,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/classification_report_unknown.csv
+test_cross_user accuracy: 0.5425, F1-score: 0.5030
+Generating confusion matrix for test_cross_user split...
+Evaluating on test split:
+Predictions shape: (3400,), unique values: [0 1 2 3 4]
+Targets shape: (3400,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/classification_report_unknown.csv
+test accuracy: 0.7062, F1-score: 0.6905
+Generating confusion matrix for test split...
+***********************FEW_SHOTFalse
+
+Test Results Summary:
+Split                     Accuracy        F1-Score       
+-------------------------------------------------------
+test_cross_device         0.4710          0.4466         
+test_cross_env            0.3311          0.3334         
+test_cross_user           0.5425          0.5030         
+test                      0.7062          0.6905         
+
+Training and evaluation completed.
+Best model from epoch 98, saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e
+Results saved to ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e
+Not the best model. Current validation accuracy: 0.6988 (best: 0.8173)
+Supervised learning completed successfully.
+Configuration saved to model directory: ./results/HumanActivityRecognition/lighttcn/params_0c09c5770e/supervised_config.json
+
+Model lighttcn training successful
+Running time: 80.28 minutes
+
+============================================================
+Starting training for model: csiconformer
+============================================================
+
+Running supervised learning: /opt/conda/bin/python /workspace/CSI-Bench-Real-WiFi-Sensing-Benchmark/scripts/train_supervised.py --data_dir="./csi-bench-dataset" --task_name=HumanActivityRecognition --model=csiconformer --batch_size=128 --epochs=100 --win_len=500 --feature_size=232 --save_dir="./results" --output_dir="./results" --num_workers=0 --use_root_data_path --no_pin_memory --test_splits="all" --learning_rate=0.0002 --weight_decay=1e-05 --warmup_epochs=8 --patience=20 --use_augmentation --use_domain_adversarial --domain_lambda=0.01 --da_start_threshold=0.6 --noise_prob=0.2 --shift_prob=0.2 --amplitude_prob=0.3 --mixup_prob=0.1 --max_shift=10 --label_smoothing=0.15 --hidden_dim=128 --attention_dim=32 --tcn_channels=128 --tcn_layers=5 --nb_filters=24 --inception_depth=6 --conf_d_model=128 --conf_layers=4 --bigru_hidden=96 --bigru_layers=2 --n_transformer_layers=1 --grad_clip_norm=0.5 --dropout=0.2
+Disabling PyTorch because PyTorch >= 2.4 is required but found 2.1.0
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Running in local environment
+Experiment ID: params_fb3e5dc495
+Results will be saved to: ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495
+Model checkpoints will be saved to: ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495
+Using device: cuda
+********************splits_dir is ./csi-bench-dataset/tasks/HumanActivityRecognition/splits
+Available test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test_id']
+Using test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test_id']
+Loading data from ./csi-bench-dataset for task HumanActivityRecognition...
+________________________DATA DEBUG________./csi-bench-dataset/tasks/HumanActivityRecognition
+Root directory does not contain required subfolders, will try standard paths.
+Checking path: ./csi-bench-dataset/tasks/HumanActivityRecognition
+  Has metadata: True, Has splits: True
+Using task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+
+==== Task Directory Contents (./csi-bench-dataset/tasks/HumanActivityRecognition) ====
+  Directory: metadata/ (3 items)
+    - device_mapping.json
+    - label_mapping.json
+    - sample_metadata.csv
+  Directory: splits/ (6 items)
+    - test_cross_device.json
+    - test_cross_env.json
+    - test_cross_user.json
+    - test_id.json
+    - train_id.json
+    - val_id.json
+  Directory: sub_Human/ (6 items)
+================================================
+
+Using metadata path: ./csi-bench-dataset/tasks/HumanActivityRecognition/metadata/sample_metadata.csv
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 15843 samples for HumanActivityRecognition - train_id
+Loaded 15843 samples for HumanActivityRecognition - train_id
+[Domain] encoders built: device: 8 classes, environment: 5 classes, user: 5 classes
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 3393 samples for HumanActivityRecognition - val_id
+Loaded 3393 samples for HumanActivityRecognition - val_id
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 4958 samples for HumanActivityRecognition - test_cross_device
+Loaded 4958 samples for HumanActivityRecognition - test_cross_device
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 5660 samples for HumanActivityRecognition - test_cross_env
+Loaded 5660 samples for HumanActivityRecognition - test_cross_env
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 5967 samples for HumanActivityRecognition - test_cross_user
+Loaded 5967 samples for HumanActivityRecognition - test_cross_user
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 3400 samples for HumanActivityRecognition - test_id
+Loaded 3400 samples for HumanActivityRecognition - test_id
+Detected 6 classes in the dataset
+Loaded 4 test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test']
+Creating CSICONFORMER model...
+Model parameters: 1573414
+Using DomainAdversarialTrainer  (domain_lambda=0.01, domain_n_classes=[8, 5, 5])
+[DomainAdversarialTrainer] backbone_dim=160, domain_n_classes=[8, 5, 5], domain_lambda=0.01
+Starting supervised training phase...
+Epoch 1/100
+Train Loss: 2.0809, Val Loss: 2.1077
+Train Acc: 0.1207, Val Acc: 0.1191
+Time per sample: 0.000175 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 2/100
+Train Loss: 2.0583, Val Loss: 2.0507
+Train Acc: 0.1180, Val Acc: 0.1188
+Time per sample: 0.000148 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 3/100
+Train Loss: 1.9915, Val Loss: 1.9430
+Train Acc: 0.1202, Val Acc: 0.1185
+Time per sample: 0.000152 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 4/100
+Train Loss: 1.8912, Val Loss: 1.8000
+Train Acc: 0.1257, Val Acc: 0.1314
+Time per sample: 0.000147 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 5/100
+Train Loss: 1.7674, Val Loss: 1.6549
+Train Acc: 0.2093, Val Acc: 0.4424
+Time per sample: 0.000144 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 6/100
+Train Loss: 1.6495, Val Loss: 1.5580
+Train Acc: 0.4461, Val Acc: 0.5113
+Time per sample: 0.000145 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 7/100
+Train Loss: 1.5733, Val Loss: 1.5294
+Train Acc: 0.5036, Val Acc: 0.5113
+Time per sample: 0.000150 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 8/100
+Train Loss: 1.5438, Val Loss: 1.5189
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000149 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 9/100
+Train Loss: 1.5314, Val Loss: 1.5138
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000142 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 10/100
+Train Loss: 1.5252, Val Loss: 1.5103
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000144 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 11/100
+Train Loss: 1.5230, Val Loss: 1.5102
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000143 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 12/100
+Train Loss: 1.5208, Val Loss: 1.5064
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000143 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 13/100
+Train Loss: 1.5199, Val Loss: 1.5043
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000150 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 14/100
+Train Loss: 1.5164, Val Loss: 1.5030
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000150 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 15/100
+Train Loss: 1.5161, Val Loss: 1.5002
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000150 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 16/100
+Train Loss: 1.5136, Val Loss: 1.4995
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000143 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 17/100
+Train Loss: 1.5137, Val Loss: 1.4958
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000144 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 18/100
+Train Loss: 1.5102, Val Loss: 1.4939
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000149 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 19/100
+Train Loss: 1.5092, Val Loss: 1.4927
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000146 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 20/100
+Train Loss: 1.5087, Val Loss: 1.4907
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000144 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 21/100
+Train Loss: 1.5061, Val Loss: 1.4896
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000143 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 22/100
+Train Loss: 1.5047, Val Loss: 1.4880
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000144 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 23/100
+Train Loss: 1.5040, Val Loss: 1.4865
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000144 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 24/100
+Train Loss: 1.5008, Val Loss: 1.4852
+Train Acc: 0.5039, Val Acc: 0.5113
+Time per sample: 0.000153 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 25/100
+Train Loss: 1.5006, Val Loss: 1.4844
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000143 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 26/100
+Train Loss: 1.4994, Val Loss: 1.4827
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000151 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 27/100
+Train Loss: 1.4975, Val Loss: 1.4819
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000151 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 28/100
+Train Loss: 1.4961, Val Loss: 1.4827
+Train Acc: 0.5038, Val Acc: 0.5125
+Time per sample: 0.000151 seconds
+Epoch 29/100
+Train Loss: 1.4939, Val Loss: 1.4783
+Train Acc: 0.5040, Val Acc: 0.5113
+Time per sample: 0.000152 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 30/100
+Train Loss: 1.4944, Val Loss: 1.4778
+Train Acc: 0.5040, Val Acc: 0.5172
+Time per sample: 0.000146 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 31/100
+Train Loss: 1.4905, Val Loss: 1.4775
+Train Acc: 0.5039, Val Acc: 0.5211
+Time per sample: 0.000143 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 32/100
+Train Loss: 1.4873, Val Loss: 1.4775
+Train Acc: 0.5038, Val Acc: 0.5240
+Time per sample: 0.000143 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 33/100
+Train Loss: 1.4856, Val Loss: 1.4749
+Train Acc: 0.5039, Val Acc: 0.5279
+Time per sample: 0.000150 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 34/100
+Train Loss: 1.4826, Val Loss: 1.4692
+Train Acc: 0.5045, Val Acc: 0.5270
+Time per sample: 0.000146 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 35/100
+Train Loss: 1.4795, Val Loss: 1.4711
+Train Acc: 0.5056, Val Acc: 0.5320
+Time per sample: 0.000144 seconds
+Epoch 36/100
+Train Loss: 1.4782, Val Loss: 1.4665
+Train Acc: 0.5065, Val Acc: 0.5320
+Time per sample: 0.000144 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 37/100
+Train Loss: 1.4747, Val Loss: 1.4659
+Train Acc: 0.5079, Val Acc: 0.5252
+Time per sample: 0.000142 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 38/100
+Train Loss: 1.4703, Val Loss: 1.4681
+Train Acc: 0.5091, Val Acc: 0.5125
+Time per sample: 0.000144 seconds
+Epoch 39/100
+Train Loss: 1.4659, Val Loss: 1.4582
+Train Acc: 0.5123, Val Acc: 0.5246
+Time per sample: 0.000144 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 40/100
+Train Loss: 1.4615, Val Loss: 1.4657
+Train Acc: 0.5142, Val Acc: 0.5055
+Time per sample: 0.000149 seconds
+Epoch 41/100
+Train Loss: 1.4565, Val Loss: 1.4640
+Train Acc: 0.5159, Val Acc: 0.5052
+Time per sample: 0.000155 seconds
+Epoch 42/100
+Train Loss: 1.4528, Val Loss: 1.4700
+Train Acc: 0.5184, Val Acc: 0.5007
+Time per sample: 0.000149 seconds
+Epoch 43/100
+Train Loss: 1.4509, Val Loss: 1.4688
+Train Acc: 0.5183, Val Acc: 0.4928
+Time per sample: 0.000143 seconds
+Epoch 44/100
+Train Loss: 1.4456, Val Loss: 1.4947
+Train Acc: 0.5181, Val Acc: 0.4624
+Time per sample: 0.000144 seconds
+Epoch 45/100
+Train Loss: 1.4418, Val Loss: 1.4537
+Train Acc: 0.5205, Val Acc: 0.5081
+Time per sample: 0.000143 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 46/100
+Train Loss: 1.4381, Val Loss: 1.4684
+Train Acc: 0.5217, Val Acc: 0.4878
+Time per sample: 0.000149 seconds
+Epoch 47/100
+Train Loss: 1.4368, Val Loss: 1.4426
+Train Acc: 0.5231, Val Acc: 0.5131
+Time per sample: 0.000150 seconds
+Best model saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/best_model.pt
+Epoch 48/100
+Train Loss: 1.4360, Val Loss: 1.4934
+Train Acc: 0.5237, Val Acc: 0.4639
+Time per sample: 0.000142 seconds
+Epoch 49/100
+Train Loss: 1.4328, Val Loss: 1.5017
+Train Acc: 0.5252, Val Acc: 0.4592
+Time per sample: 0.000152 seconds
+Epoch 50/100
+Train Loss: 1.4284, Val Loss: 1.4749
+Train Acc: 0.5254, Val Acc: 0.4845
+Time per sample: 0.000154 seconds
+Epoch 51/100
+Train Loss: 1.4277, Val Loss: 1.5973
+Train Acc: 0.5265, Val Acc: 0.3985
+Time per sample: 0.000144 seconds
+Epoch 52/100
+Train Loss: 1.4271, Val Loss: 1.5454
+Train Acc: 0.5243, Val Acc: 0.4309
+Time per sample: 0.000143 seconds
+Epoch 53/100
+Train Loss: 1.4207, Val Loss: 1.4730
+Train Acc: 0.5294, Val Acc: 0.4839
+Time per sample: 0.000149 seconds
+Epoch 54/100
+Train Loss: 1.4194, Val Loss: 1.4921
+Train Acc: 0.5313, Val Acc: 0.4727
+Time per sample: 0.000143 seconds
+Epoch 55/100
+Train Loss: 1.4167, Val Loss: 1.5063
+Train Acc: 0.5301, Val Acc: 0.4657
+Time per sample: 0.000144 seconds
+Epoch 56/100
+Train Loss: 1.4137, Val Loss: 1.5427
+Train Acc: 0.5318, Val Acc: 0.4359
+Time per sample: 0.000146 seconds
+Epoch 57/100
+Train Loss: 1.4110, Val Loss: 1.5688
+Train Acc: 0.5329, Val Acc: 0.4229
+Time per sample: 0.000143 seconds
+Epoch 58/100
+Train Loss: 1.4095, Val Loss: 1.5182
+Train Acc: 0.5335, Val Acc: 0.4601
+Time per sample: 0.000142 seconds
+Epoch 59/100
+Train Loss: 1.4061, Val Loss: 1.5337
+Train Acc: 0.5368, Val Acc: 0.4456
+Time per sample: 0.000143 seconds
+Epoch 60/100
+Train Loss: 1.4000, Val Loss: 1.5351
+Train Acc: 0.5389, Val Acc: 0.4512
+Time per sample: 0.000144 seconds
+Epoch 61/100
+Train Loss: 1.3957, Val Loss: 1.5554
+Train Acc: 0.5436, Val Acc: 0.4427
+Time per sample: 0.000144 seconds
+Epoch 62/100
+Train Loss: 1.3949, Val Loss: 1.5224
+Train Acc: 0.5425, Val Acc: 0.4598
+Time per sample: 0.000147 seconds
+Epoch 63/100
+Train Loss: 1.3938, Val Loss: 1.6292
+Train Acc: 0.5430, Val Acc: 0.4058
+Time per sample: 0.000142 seconds
+Epoch 64/100
+Train Loss: 1.3881, Val Loss: 1.7981
+Train Acc: 0.5445, Val Acc: 0.3436
+Time per sample: 0.000144 seconds
+Epoch 65/100
+Train Loss: 1.3847, Val Loss: 1.6337
+Train Acc: 0.5475, Val Acc: 0.4147
+Time per sample: 0.000144 seconds
+Epoch 66/100
+Train Loss: 1.3798, Val Loss: 1.7759
+Train Acc: 0.5509, Val Acc: 0.3584
+Time per sample: 0.000145 seconds
+Epoch 67/100
+Train Loss: 1.3812, Val Loss: 1.5981
+Train Acc: 0.5469, Val Acc: 0.4285
+Time per sample: 0.000144 seconds
+Early stopping triggered after 20 epochs without improvement.
+
+Evaluating on test splits:
+Evaluating on test_cross_device split:
+Predictions shape: (4958,), unique values: [2 3]
+Targets shape: (4958,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/classification_report_unknown.csv
+test_cross_device accuracy: 0.5284, F1-score: 0.4234
+Generating confusion matrix for test_cross_device split...
+Evaluating on test_cross_env split:
+Predictions shape: (5660,), unique values: [2 3 4]
+Targets shape: (5660,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/classification_report_unknown.csv
+test_cross_env accuracy: 0.4910, F1-score: 0.3663
+Generating confusion matrix for test_cross_env split...
+Evaluating on test_cross_user split:
+Predictions shape: (5967,), unique values: [2 3 4]
+Targets shape: (5967,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/classification_report_unknown.csv
+test_cross_user accuracy: 0.5644, F1-score: 0.4358
+Generating confusion matrix for test_cross_user split...
+Evaluating on test split:
+Predictions shape: (3400,), unique values: [2 3 4]
+Targets shape: (3400,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/classification_report_unknown.csv
+test accuracy: 0.5256, F1-score: 0.4260
+Generating confusion matrix for test split...
+***********************FEW_SHOTFalse
+
+Test Results Summary:
+Split                     Accuracy        F1-Score       
+-------------------------------------------------------
+test_cross_device         0.5284          0.4234         
+test_cross_env            0.4910          0.3663         
+test_cross_user           0.5644          0.4358         
+test                      0.5256          0.4260         
+
+Training and evaluation completed.
+Best model from epoch 47, saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495
+Results saved to ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495
+Not the best model. Current validation accuracy: 0.5131 (best: 0.5131)
+Supervised learning completed successfully.
+Configuration saved to model directory: ./results/HumanActivityRecognition/csiconformer/params_fb3e5dc495/supervised_config.json
+
+Model csiconformer training successful
+Running time: 71.21 minutes
+
+============================================================
+Starting training for model: deepbigru
+============================================================
+
+Running supervised learning: /opt/conda/bin/python /workspace/CSI-Bench-Real-WiFi-Sensing-Benchmark/scripts/train_supervised.py --data_dir="./csi-bench-dataset" --task_name=HumanActivityRecognition --model=deepbigru --batch_size=128 --epochs=100 --win_len=500 --feature_size=232 --save_dir="./results" --output_dir="./results" --num_workers=0 --use_root_data_path --no_pin_memory --test_splits="all" --learning_rate=0.001 --weight_decay=1e-05 --warmup_epochs=5 --patience=20 --use_augmentation --use_domain_adversarial --domain_lambda=0.01 --da_start_threshold=0.6 --noise_prob=0.2 --shift_prob=0.2 --amplitude_prob=0.3 --mixup_prob=0.1 --max_shift=10 --label_smoothing=0.1 --hidden_dim=128 --attention_dim=32 --tcn_channels=128 --tcn_layers=5 --nb_filters=24 --inception_depth=6 --conf_d_model=128 --conf_layers=4 --bigru_hidden=96 --bigru_layers=2 --n_transformer_layers=1 --subcarrier_dropout_prob=0.05 --dropout=0.3
+Disabling PyTorch because PyTorch >= 2.4 is required but found 2.1.0
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Running in local environment
+Experiment ID: params_2d7135009a
+Results will be saved to: ./results/HumanActivityRecognition/deepbigru/params_2d7135009a
+Model checkpoints will be saved to: ./results/HumanActivityRecognition/deepbigru/params_2d7135009a
+Using device: cuda
+********************splits_dir is ./csi-bench-dataset/tasks/HumanActivityRecognition/splits
+Available test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test_id']
+Using test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test_id']
+Loading data from ./csi-bench-dataset for task HumanActivityRecognition...
+________________________DATA DEBUG________./csi-bench-dataset/tasks/HumanActivityRecognition
+Root directory does not contain required subfolders, will try standard paths.
+Checking path: ./csi-bench-dataset/tasks/HumanActivityRecognition
+  Has metadata: True, Has splits: True
+Using task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+
+==== Task Directory Contents (./csi-bench-dataset/tasks/HumanActivityRecognition) ====
+  Directory: metadata/ (3 items)
+    - device_mapping.json
+    - label_mapping.json
+    - sample_metadata.csv
+  Directory: splits/ (6 items)
+    - test_cross_device.json
+    - test_cross_env.json
+    - test_cross_user.json
+    - test_id.json
+    - train_id.json
+    - val_id.json
+  Directory: sub_Human/ (6 items)
+================================================
+
+Using metadata path: ./csi-bench-dataset/tasks/HumanActivityRecognition/metadata/sample_metadata.csv
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 15843 samples for HumanActivityRecognition - train_id
+Loaded 15843 samples for HumanActivityRecognition - train_id
+[Domain] encoders built: device: 8 classes, environment: 5 classes, user: 5 classes
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 3393 samples for HumanActivityRecognition - val_id
+Loaded 3393 samples for HumanActivityRecognition - val_id
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 4958 samples for HumanActivityRecognition - test_cross_device
+Loaded 4958 samples for HumanActivityRecognition - test_cross_device
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 5660 samples for HumanActivityRecognition - test_cross_env
+Loaded 5660 samples for HumanActivityRecognition - test_cross_env
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 5967 samples for HumanActivityRecognition - test_cross_user
+Loaded 5967 samples for HumanActivityRecognition - test_cross_user
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 3400 samples for HumanActivityRecognition - test_id
+Loaded 3400 samples for HumanActivityRecognition - test_id
+Detected 6 classes in the dataset
+Loaded 4 test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test']
+Creating DEEPBIGRU model...
+Model parameters: 758630
+Using DomainAdversarialTrainer  (domain_lambda=0.01, domain_n_classes=[8, 5, 5])
+[DomainAdversarialTrainer] backbone_dim=416, domain_n_classes=[8, 5, 5], domain_lambda=0.01
+Starting supervised training phase...
+Epoch 1/100
+Train Loss: 1.8315, Val Loss: 1.8096
+Train Acc: 0.1276, Val Acc: 0.1029
+Time per sample: 0.000071 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 2/100
+Train Loss: 1.7411, Val Loss: 1.6494
+Train Acc: 0.3066, Val Acc: 0.5113
+Time per sample: 0.000062 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 3/100
+Train Loss: 1.5675, Val Loss: 1.5054
+Train Acc: 0.4998, Val Acc: 0.5113
+Time per sample: 0.000060 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 4/100
+Train Loss: 1.5006, Val Loss: 1.4831
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000061 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 5/100
+Train Loss: 1.4891, Val Loss: 1.4775
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000062 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 6/100
+Train Loss: 1.4854, Val Loss: 1.4797
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000065 seconds
+Epoch 7/100
+Train Loss: 1.4808, Val Loss: 1.4781
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000065 seconds
+Epoch 8/100
+Train Loss: 1.4788, Val Loss: 1.4833
+Train Acc: 0.5038, Val Acc: 0.5113
+Time per sample: 0.000064 seconds
+Epoch 9/100
+Train Loss: 1.4748, Val Loss: 1.4803
+Train Acc: 0.5038, Val Acc: 0.5149
+Time per sample: 0.000065 seconds
+Epoch 10/100
+Train Loss: 1.4694, Val Loss: 1.4758
+Train Acc: 0.5038, Val Acc: 0.5252
+Time per sample: 0.000063 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 11/100
+Train Loss: 1.4643, Val Loss: 1.4894
+Train Acc: 0.5039, Val Acc: 0.4951
+Time per sample: 0.000063 seconds
+Epoch 12/100
+Train Loss: 1.4598, Val Loss: 1.4861
+Train Acc: 0.5038, Val Acc: 0.4910
+Time per sample: 0.000064 seconds
+Epoch 13/100
+Train Loss: 1.4517, Val Loss: 1.4794
+Train Acc: 0.5050, Val Acc: 0.4872
+Time per sample: 0.000064 seconds
+Epoch 14/100
+Train Loss: 1.4441, Val Loss: 1.4723
+Train Acc: 0.5063, Val Acc: 0.4881
+Time per sample: 0.000063 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 15/100
+Train Loss: 1.4359, Val Loss: 1.4811
+Train Acc: 0.5099, Val Acc: 0.4777
+Time per sample: 0.000060 seconds
+Epoch 16/100
+Train Loss: 1.4295, Val Loss: 1.4449
+Train Acc: 0.5132, Val Acc: 0.5055
+Time per sample: 0.000061 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 17/100
+Train Loss: 1.4224, Val Loss: 1.4459
+Train Acc: 0.5157, Val Acc: 0.5046
+Time per sample: 0.000060 seconds
+Epoch 18/100
+Train Loss: 1.4133, Val Loss: 1.4448
+Train Acc: 0.5197, Val Acc: 0.5019
+Time per sample: 0.000062 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 19/100
+Train Loss: 1.4033, Val Loss: 1.4606
+Train Acc: 0.5257, Val Acc: 0.4857
+Time per sample: 0.000062 seconds
+Epoch 20/100
+Train Loss: 1.4021, Val Loss: 1.4553
+Train Acc: 0.5257, Val Acc: 0.4866
+Time per sample: 0.000062 seconds
+Epoch 21/100
+Train Loss: 1.3944, Val Loss: 1.4321
+Train Acc: 0.5243, Val Acc: 0.5055
+Time per sample: 0.000059 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 22/100
+Train Loss: 1.3865, Val Loss: 1.4732
+Train Acc: 0.5308, Val Acc: 0.4724
+Time per sample: 0.000062 seconds
+Epoch 23/100
+Train Loss: 1.3845, Val Loss: 1.4319
+Train Acc: 0.5348, Val Acc: 0.4966
+Time per sample: 0.000062 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 24/100
+Train Loss: 1.3793, Val Loss: 1.4197
+Train Acc: 0.5336, Val Acc: 0.5055
+Time per sample: 0.000060 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 25/100
+Train Loss: 1.3735, Val Loss: 1.3926
+Train Acc: 0.5351, Val Acc: 0.5193
+Time per sample: 0.000062 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 26/100
+Train Loss: 1.3645, Val Loss: 1.3886
+Train Acc: 0.5394, Val Acc: 0.5231
+Time per sample: 0.000064 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 27/100
+Train Loss: 1.3618, Val Loss: 1.4003
+Train Acc: 0.5421, Val Acc: 0.5149
+Time per sample: 0.000062 seconds
+Epoch 28/100
+Train Loss: 1.3579, Val Loss: 1.3894
+Train Acc: 0.5418, Val Acc: 0.5193
+Time per sample: 0.000061 seconds
+Epoch 29/100
+Train Loss: 1.3569, Val Loss: 1.3698
+Train Acc: 0.5398, Val Acc: 0.5308
+Time per sample: 0.000060 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 30/100
+Train Loss: 1.3526, Val Loss: 1.4112
+Train Acc: 0.5394, Val Acc: 0.5028
+Time per sample: 0.000065 seconds
+Epoch 31/100
+Train Loss: 1.3515, Val Loss: 1.3767
+Train Acc: 0.5436, Val Acc: 0.5293
+Time per sample: 0.000065 seconds
+Epoch 32/100
+Train Loss: 1.3483, Val Loss: 1.3984
+Train Acc: 0.5412, Val Acc: 0.5140
+Time per sample: 0.000064 seconds
+Epoch 33/100
+Train Loss: 1.3420, Val Loss: 1.3995
+Train Acc: 0.5481, Val Acc: 0.5155
+Time per sample: 0.000063 seconds
+Epoch 34/100
+Train Loss: 1.3376, Val Loss: 1.4105
+Train Acc: 0.5462, Val Acc: 0.5066
+Time per sample: 0.000060 seconds
+Epoch 35/100
+Train Loss: 1.3330, Val Loss: 1.3395
+Train Acc: 0.5489, Val Acc: 0.5414
+Time per sample: 0.000063 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 36/100
+Train Loss: 1.3280, Val Loss: 1.3658
+Train Acc: 0.5504, Val Acc: 0.5284
+Time per sample: 0.000063 seconds
+Epoch 37/100
+Train Loss: 1.3282, Val Loss: 1.3230
+Train Acc: 0.5505, Val Acc: 0.5482
+Time per sample: 0.000062 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 38/100
+Train Loss: 1.3256, Val Loss: 1.3629
+Train Acc: 0.5506, Val Acc: 0.5279
+Time per sample: 0.000063 seconds
+Epoch 39/100
+Train Loss: 1.3203, Val Loss: 1.3542
+Train Acc: 0.5529, Val Acc: 0.5364
+Time per sample: 0.000063 seconds
+Epoch 40/100
+Train Loss: 1.3164, Val Loss: 1.3099
+Train Acc: 0.5520, Val Acc: 0.5503
+Time per sample: 0.000065 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 41/100
+Train Loss: 1.3119, Val Loss: 1.3578
+Train Acc: 0.5580, Val Acc: 0.5335
+Time per sample: 0.000064 seconds
+Epoch 42/100
+Train Loss: 1.3141, Val Loss: 1.3362
+Train Acc: 0.5572, Val Acc: 0.5405
+Time per sample: 0.000061 seconds
+Epoch 43/100
+Train Loss: 1.3035, Val Loss: 1.3441
+Train Acc: 0.5594, Val Acc: 0.5364
+Time per sample: 0.000062 seconds
+Epoch 44/100
+Train Loss: 1.3107, Val Loss: 1.3120
+Train Acc: 0.5565, Val Acc: 0.5564
+Time per sample: 0.000063 seconds
+Epoch 45/100
+Train Loss: 1.2957, Val Loss: 1.3396
+Train Acc: 0.5648, Val Acc: 0.5447
+Time per sample: 0.000063 seconds
+Epoch 46/100
+Train Loss: 1.2980, Val Loss: 1.3014
+Train Acc: 0.5626, Val Acc: 0.5612
+Time per sample: 0.000063 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 47/100
+Train Loss: 1.2914, Val Loss: 1.3485
+Train Acc: 0.5647, Val Acc: 0.5332
+Time per sample: 0.000063 seconds
+Epoch 48/100
+Train Loss: 1.2910, Val Loss: 1.3034
+Train Acc: 0.5639, Val Acc: 0.5573
+Time per sample: 0.000063 seconds
+Epoch 49/100
+Train Loss: 1.2893, Val Loss: 1.3554
+Train Acc: 0.5657, Val Acc: 0.5305
+Time per sample: 0.000062 seconds
+Epoch 50/100
+Train Loss: 1.2801, Val Loss: 1.3047
+Train Acc: 0.5695, Val Acc: 0.5582
+Time per sample: 0.000062 seconds
+Epoch 51/100
+Train Loss: 1.2801, Val Loss: 1.2721
+Train Acc: 0.5703, Val Acc: 0.5688
+Time per sample: 0.000064 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 52/100
+Train Loss: 1.2804, Val Loss: 1.3152
+Train Acc: 0.5691, Val Acc: 0.5576
+Time per sample: 0.000064 seconds
+Epoch 53/100
+Train Loss: 1.2695, Val Loss: 1.2776
+Train Acc: 0.5739, Val Acc: 0.5694
+Time per sample: 0.000061 seconds
+Epoch 54/100
+Train Loss: 1.2701, Val Loss: 1.2637
+Train Acc: 0.5720, Val Acc: 0.5732
+Time per sample: 0.000063 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 55/100
+Train Loss: 1.2622, Val Loss: 1.2769
+Train Acc: 0.5783, Val Acc: 0.5703
+Time per sample: 0.000063 seconds
+Epoch 56/100
+Train Loss: 1.2570, Val Loss: 1.2983
+Train Acc: 0.5810, Val Acc: 0.5626
+Time per sample: 0.000062 seconds
+Epoch 57/100
+Train Loss: 1.2515, Val Loss: 1.2660
+Train Acc: 0.5797, Val Acc: 0.5782
+Time per sample: 0.000063 seconds
+Epoch 58/100
+Train Loss: 1.2491, Val Loss: 1.2652
+Train Acc: 0.5850, Val Acc: 0.5774
+Time per sample: 0.000062 seconds
+Epoch 59/100
+Train Loss: 1.2444, Val Loss: 1.2444
+Train Acc: 0.5839, Val Acc: 0.5827
+Time per sample: 0.000061 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 60/100
+Train Loss: 1.2456, Val Loss: 1.3012
+Train Acc: 0.5880, Val Acc: 0.5688
+Time per sample: 0.000064 seconds
+Epoch 61/100
+Train Loss: 1.2390, Val Loss: 1.2452
+Train Acc: 0.5906, Val Acc: 0.5933
+Time per sample: 0.000068 seconds
+Epoch 62/100
+Train Loss: 1.2350, Val Loss: 1.2428
+Train Acc: 0.5943, Val Acc: 0.5883
+Time per sample: 0.000062 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 63/100
+Train Loss: 1.2240, Val Loss: 1.2305
+Train Acc: 0.5971, Val Acc: 0.5892
+Time per sample: 0.000062 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 64/100
+Train Loss: 1.2231, Val Loss: 1.2573
+Train Acc: 0.5938, Val Acc: 0.5918
+Time per sample: 0.000063 seconds
+Epoch 65/100
+Train Loss: 1.2087, Val Loss: 1.1931
+Train Acc: 0.6047, Val Acc: 0.6077
+Time per sample: 0.000062 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 66/100
+[DomainAdversarialTrainer] DA gate opened at epoch 65 (train_acc=0.605 >= threshold=0.6)
+Train Loss: 1.2153, Val Loss: 1.2458
+Train Acc: 0.6056, Val Acc: 0.5889
+Time per sample: 0.000078 seconds
+Epoch 67/100
+Train Loss: 1.2049, Val Loss: 1.2002
+Train Acc: 0.6081, Val Acc: 0.6133
+Time per sample: 0.000078 seconds
+Epoch 68/100
+Train Loss: 1.2003, Val Loss: 1.2295
+Train Acc: 0.6086, Val Acc: 0.6001
+Time per sample: 0.000084 seconds
+Epoch 69/100
+Train Loss: 1.1969, Val Loss: 1.1838
+Train Acc: 0.6116, Val Acc: 0.6225
+Time per sample: 0.000078 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 70/100
+Train Loss: 1.1928, Val Loss: 1.1847
+Train Acc: 0.6118, Val Acc: 0.6104
+Time per sample: 0.000079 seconds
+Epoch 71/100
+Train Loss: 1.1869, Val Loss: 1.2163
+Train Acc: 0.6167, Val Acc: 0.5989
+Time per sample: 0.000078 seconds
+Epoch 72/100
+Train Loss: 1.1691, Val Loss: 1.1668
+Train Acc: 0.6213, Val Acc: 0.6201
+Time per sample: 0.000078 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 73/100
+Train Loss: 1.1600, Val Loss: 1.2080
+Train Acc: 0.6287, Val Acc: 0.6089
+Time per sample: 0.000078 seconds
+Epoch 74/100
+Train Loss: 1.1608, Val Loss: 1.1546
+Train Acc: 0.6301, Val Acc: 0.6242
+Time per sample: 0.000079 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 75/100
+Train Loss: 1.1548, Val Loss: 1.2197
+Train Acc: 0.6330, Val Acc: 0.6054
+Time per sample: 0.000079 seconds
+Epoch 76/100
+Train Loss: 1.1411, Val Loss: 1.1931
+Train Acc: 0.6407, Val Acc: 0.6186
+Time per sample: 0.000078 seconds
+Epoch 77/100
+Train Loss: 1.1406, Val Loss: 1.1668
+Train Acc: 0.6381, Val Acc: 0.6334
+Time per sample: 0.000079 seconds
+Epoch 78/100
+Train Loss: 1.1371, Val Loss: 1.2018
+Train Acc: 0.6402, Val Acc: 0.6133
+Time per sample: 0.000080 seconds
+Epoch 79/100
+Train Loss: 1.1265, Val Loss: 1.1901
+Train Acc: 0.6451, Val Acc: 0.6148
+Time per sample: 0.000079 seconds
+Epoch 80/100
+Train Loss: 1.1205, Val Loss: 1.1947
+Train Acc: 0.6448, Val Acc: 0.6142
+Time per sample: 0.000079 seconds
+Epoch 81/100
+Train Loss: 1.1107, Val Loss: 1.2106
+Train Acc: 0.6542, Val Acc: 0.6104
+Time per sample: 0.000079 seconds
+Epoch 82/100
+Train Loss: 1.1045, Val Loss: 1.1472
+Train Acc: 0.6569, Val Acc: 0.6390
+Time per sample: 0.000079 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 83/100
+Train Loss: 1.0983, Val Loss: 1.1985
+Train Acc: 0.6639, Val Acc: 0.6098
+Time per sample: 0.000079 seconds
+Epoch 84/100
+Train Loss: 1.0928, Val Loss: 1.1494
+Train Acc: 0.6622, Val Acc: 0.6425
+Time per sample: 0.000078 seconds
+Epoch 85/100
+Train Loss: 1.0840, Val Loss: 1.1310
+Train Acc: 0.6662, Val Acc: 0.6552
+Time per sample: 0.000078 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 86/100
+Train Loss: 1.0856, Val Loss: 1.1002
+Train Acc: 0.6658, Val Acc: 0.6587
+Time per sample: 0.000078 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 87/100
+Train Loss: 1.0722, Val Loss: 1.1238
+Train Acc: 0.6681, Val Acc: 0.6552
+Time per sample: 0.000076 seconds
+Epoch 88/100
+Train Loss: 1.0655, Val Loss: 1.1743
+Train Acc: 0.6742, Val Acc: 0.6251
+Time per sample: 0.000081 seconds
+Epoch 89/100
+Train Loss: 1.0580, Val Loss: 1.1139
+Train Acc: 0.6818, Val Acc: 0.6611
+Time per sample: 0.000079 seconds
+Epoch 90/100
+Train Loss: 1.0534, Val Loss: 1.1117
+Train Acc: 0.6833, Val Acc: 0.6614
+Time per sample: 0.000080 seconds
+Epoch 91/100
+Train Loss: 1.0458, Val Loss: 1.1203
+Train Acc: 0.6886, Val Acc: 0.6581
+Time per sample: 0.000080 seconds
+Epoch 92/100
+Train Loss: 1.0373, Val Loss: 1.1070
+Train Acc: 0.6921, Val Acc: 0.6646
+Time per sample: 0.000081 seconds
+Epoch 93/100
+Train Loss: 1.0403, Val Loss: 1.0708
+Train Acc: 0.6877, Val Acc: 0.6673
+Time per sample: 0.000082 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+Epoch 94/100
+Train Loss: 1.0227, Val Loss: 1.0845
+Train Acc: 0.6973, Val Acc: 0.6637
+Time per sample: 0.000080 seconds
+Epoch 95/100
+Train Loss: 1.0292, Val Loss: 1.1140
+Train Acc: 0.6956, Val Acc: 0.6596
+Time per sample: 0.000083 seconds
+Epoch 96/100
+Train Loss: 1.0147, Val Loss: 1.1487
+Train Acc: 0.7045, Val Acc: 0.6431
+Time per sample: 0.000078 seconds
+Epoch 97/100
+Train Loss: 1.0179, Val Loss: 1.1175
+Train Acc: 0.7017, Val Acc: 0.6611
+Time per sample: 0.000082 seconds
+Epoch 98/100
+Train Loss: 1.0081, Val Loss: 1.0747
+Train Acc: 0.7090, Val Acc: 0.6726
+Time per sample: 0.000085 seconds
+Epoch 99/100
+Train Loss: 1.0039, Val Loss: 1.1162
+Train Acc: 0.7071, Val Acc: 0.6572
+Time per sample: 0.000081 seconds
+Epoch 100/100
+Train Loss: 0.9981, Val Loss: 1.0682
+Train Acc: 0.7140, Val Acc: 0.6746
+Time per sample: 0.000080 seconds
+Best model saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/best_model.pt
+
+Evaluating on test splits:
+Evaluating on test_cross_device split:
+Predictions shape: (4958,), unique values: [0 1 2 3 4]
+Targets shape: (4958,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/classification_report_unknown.csv
+test_cross_device accuracy: 0.4808, F1-score: 0.4404
+Generating confusion matrix for test_cross_device split...
+Evaluating on test_cross_env split:
+Predictions shape: (5660,), unique values: [0 1 2 3 4]
+Targets shape: (5660,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/classification_report_unknown.csv
+test_cross_env accuracy: 0.4076, F1-score: 0.3735
+Generating confusion matrix for test_cross_env split...
+Evaluating on test_cross_user split:
+Predictions shape: (5967,), unique values: [0 1 2 3 4]
+Targets shape: (5967,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/classification_report_unknown.csv
+test_cross_user accuracy: 0.5470, F1-score: 0.4914
+Generating confusion matrix for test_cross_user split...
+Evaluating on test split:
+Predictions shape: (3400,), unique values: [0 1 2 3 4]
+Targets shape: (3400,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/classification_report_unknown.csv
+test accuracy: 0.6797, F1-score: 0.6580
+Generating confusion matrix for test split...
+***********************FEW_SHOTFalse
+
+Test Results Summary:
+Split                     Accuracy        F1-Score       
+-------------------------------------------------------
+test_cross_device         0.4808          0.4404         
+test_cross_env            0.4076          0.3735         
+test_cross_user           0.5470          0.4914         
+test                      0.6797          0.6580         
+
+Training and evaluation completed.
+Best model from epoch 100, saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a
+Results saved to ./results/HumanActivityRecognition/deepbigru/params_2d7135009a
+Not the best model. Current validation accuracy: 0.6746 (best: 0.8998)
+Supervised learning completed successfully.
+Configuration saved to model directory: ./results/HumanActivityRecognition/deepbigru/params_2d7135009a/supervised_config.json
+
+Model deepbigru training successful
+Running time: 91.05 minutes
+
+============================================================
+Starting training for model: prunedattentiongru
+============================================================
+
+Running supervised learning: /opt/conda/bin/python /workspace/CSI-Bench-Real-WiFi-Sensing-Benchmark/scripts/train_supervised.py --data_dir="./csi-bench-dataset" --task_name=HumanActivityRecognition --model=prunedattentiongru --batch_size=128 --epochs=100 --win_len=500 --feature_size=232 --save_dir="./results" --output_dir="./results" --num_workers=0 --use_root_data_path --no_pin_memory --test_splits="all" --learning_rate=0.001 --weight_decay=1e-05 --warmup_epochs=5 --patience=20 --use_augmentation --use_domain_adversarial --domain_lambda=0.01 --da_start_threshold=0.6 --noise_prob=0.2 --shift_prob=0.2 --amplitude_prob=0.3 --mixup_prob=0.1 --max_shift=10 --label_smoothing=0.1 --hidden_dim=128 --attention_dim=32 --tcn_channels=128 --tcn_layers=5 --nb_filters=24 --inception_depth=6 --conf_d_model=128 --conf_layers=4 --bigru_hidden=96 --bigru_layers=2 --n_transformer_layers=1
+Disabling PyTorch because PyTorch >= 2.4 is required but found 2.1.0
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Running in local environment
+Experiment ID: params_45dd76bc7d
+Results will be saved to: ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d
+Model checkpoints will be saved to: ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d
+Using device: cuda
+********************splits_dir is ./csi-bench-dataset/tasks/HumanActivityRecognition/splits
+Available test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test_id']
+Using test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test_id']
+Loading data from ./csi-bench-dataset for task HumanActivityRecognition...
+________________________DATA DEBUG________./csi-bench-dataset/tasks/HumanActivityRecognition
+Root directory does not contain required subfolders, will try standard paths.
+Checking path: ./csi-bench-dataset/tasks/HumanActivityRecognition
+  Has metadata: True, Has splits: True
+Using task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+
+==== Task Directory Contents (./csi-bench-dataset/tasks/HumanActivityRecognition) ====
+  Directory: metadata/ (3 items)
+    - device_mapping.json
+    - label_mapping.json
+    - sample_metadata.csv
+  Directory: splits/ (6 items)
+    - test_cross_device.json
+    - test_cross_env.json
+    - test_cross_user.json
+    - test_id.json
+    - train_id.json
+    - val_id.json
+  Directory: sub_Human/ (6 items)
+================================================
+
+Using metadata path: ./csi-bench-dataset/tasks/HumanActivityRecognition/metadata/sample_metadata.csv
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 15843 samples for HumanActivityRecognition - train_id
+Loaded 15843 samples for HumanActivityRecognition - train_id
+[Domain] encoders built: device: 8 classes, environment: 5 classes, user: 5 classes
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 3393 samples for HumanActivityRecognition - val_id
+Loaded 3393 samples for HumanActivityRecognition - val_id
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 4958 samples for HumanActivityRecognition - test_cross_device
+Loaded 4958 samples for HumanActivityRecognition - test_cross_device
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 5660 samples for HumanActivityRecognition - test_cross_env
+Loaded 5660 samples for HumanActivityRecognition - test_cross_env
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 5967 samples for HumanActivityRecognition - test_cross_user
+Loaded 5967 samples for HumanActivityRecognition - test_cross_user
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Using provided task directory: ./csi-bench-dataset/tasks/HumanActivityRecognition
+Loaded 3400 samples for HumanActivityRecognition - test_id
+Loaded 3400 samples for HumanActivityRecognition - test_id
+Detected 6 classes in the dataset
+Loaded 4 test splits: ['test_cross_device', 'test_cross_env', 'test_cross_user', 'test']
+Creating PRUNEDATTENTIONGRU model...
+Model parameters: 256390
+Using DomainAdversarialTrainer  (domain_lambda=0.01, domain_n_classes=[8, 5, 5])
+[DomainAdversarialTrainer] backbone_dim=64, domain_n_classes=[8, 5, 5], domain_lambda=0.01
+Starting supervised training phase...
+Epoch 1/100
+Train Loss: 1.7488, Val Loss: 1.7303
+Train Acc: 0.2945, Val Acc: 0.3130
+Time per sample: 0.003001 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 2/100
+Train Loss: 1.7216, Val Loss: 1.6736
+Train Acc: 0.3562, Val Acc: 0.4474
+Time per sample: 0.002950 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 3/100
+Train Loss: 1.6512, Val Loss: 1.5859
+Train Acc: 0.4634, Val Acc: 0.5111
+Time per sample: 0.002978 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 4/100
+Train Loss: 1.5707, Val Loss: 1.5101
+Train Acc: 0.4967, Val Acc: 0.5113
+Time per sample: 0.002997 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 5/100
+Train Loss: 1.5108, Val Loss: 1.4736
+Train Acc: 0.5028, Val Acc: 0.5113
+Time per sample: 0.002939 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 6/100
+Train Loss: 1.4895, Val Loss: 1.4617
+Train Acc: 0.5031, Val Acc: 0.5113
+Time per sample: 0.002963 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 7/100
+Train Loss: 1.4785, Val Loss: 1.4553
+Train Acc: 0.5035, Val Acc: 0.5113
+Time per sample: 0.002998 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 8/100
+Train Loss: 1.4714, Val Loss: 1.4512
+Train Acc: 0.5035, Val Acc: 0.5113
+Time per sample: 0.002959 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 9/100
+Train Loss: 1.4661, Val Loss: 1.4470
+Train Acc: 0.5041, Val Acc: 0.5113
+Time per sample: 0.002961 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 10/100
+Train Loss: 1.4639, Val Loss: 1.4429
+Train Acc: 0.5041, Val Acc: 0.5113
+Time per sample: 0.002977 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 11/100
+Train Loss: 1.4574, Val Loss: 1.4395
+Train Acc: 0.5050, Val Acc: 0.5125
+Time per sample: 0.003004 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 12/100
+Train Loss: 1.4547, Val Loss: 1.4350
+Train Acc: 0.5063, Val Acc: 0.5131
+Time per sample: 0.002941 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 13/100
+Train Loss: 1.4472, Val Loss: 1.4307
+Train Acc: 0.5077, Val Acc: 0.5178
+Time per sample: 0.002921 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 14/100
+Train Loss: 1.4422, Val Loss: 1.4256
+Train Acc: 0.5090, Val Acc: 0.5187
+Time per sample: 0.002900 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 15/100
+Train Loss: 1.4381, Val Loss: 1.4194
+Train Acc: 0.5106, Val Acc: 0.5211
+Time per sample: 0.002992 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 16/100
+Train Loss: 1.4295, Val Loss: 1.4138
+Train Acc: 0.5144, Val Acc: 0.5240
+Time per sample: 0.002933 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 17/100
+Train Loss: 1.4231, Val Loss: 1.4083
+Train Acc: 0.5156, Val Acc: 0.5252
+Time per sample: 0.002882 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 18/100
+Train Loss: 1.4157, Val Loss: 1.4006
+Train Acc: 0.5192, Val Acc: 0.5267
+Time per sample: 0.002893 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 19/100
+Train Loss: 1.4067, Val Loss: 1.3950
+Train Acc: 0.5216, Val Acc: 0.5273
+Time per sample: 0.002895 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 20/100
+Train Loss: 1.4023, Val Loss: 1.3867
+Train Acc: 0.5215, Val Acc: 0.5308
+Time per sample: 0.002940 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 21/100
+Train Loss: 1.3953, Val Loss: 1.3825
+Train Acc: 0.5251, Val Acc: 0.5308
+Time per sample: 0.002950 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 22/100
+Train Loss: 1.3869, Val Loss: 1.3780
+Train Acc: 0.5282, Val Acc: 0.5393
+Time per sample: 0.002905 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 23/100
+Train Loss: 1.3809, Val Loss: 1.3709
+Train Acc: 0.5318, Val Acc: 0.5382
+Time per sample: 0.002866 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 24/100
+Train Loss: 1.3737, Val Loss: 1.3642
+Train Acc: 0.5352, Val Acc: 0.5408
+Time per sample: 0.002884 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 25/100
+Train Loss: 1.3673, Val Loss: 1.3594
+Train Acc: 0.5365, Val Acc: 0.5435
+Time per sample: 0.002949 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 26/100
+Train Loss: 1.3610, Val Loss: 1.3545
+Train Acc: 0.5395, Val Acc: 0.5458
+Time per sample: 0.002940 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 27/100
+Train Loss: 1.3552, Val Loss: 1.3492
+Train Acc: 0.5411, Val Acc: 0.5526
+Time per sample: 0.002967 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 28/100
+Train Loss: 1.3477, Val Loss: 1.3439
+Train Acc: 0.5438, Val Acc: 0.5523
+Time per sample: 0.002933 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 29/100
+Train Loss: 1.3410, Val Loss: 1.3393
+Train Acc: 0.5460, Val Acc: 0.5544
+Time per sample: 0.002932 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 30/100
+Train Loss: 1.3351, Val Loss: 1.3360
+Train Acc: 0.5490, Val Acc: 0.5588
+Time per sample: 0.002961 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 31/100
+Train Loss: 1.3311, Val Loss: 1.3302
+Train Acc: 0.5507, Val Acc: 0.5644
+Time per sample: 0.002949 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 32/100
+Train Loss: 1.3245, Val Loss: 1.3261
+Train Acc: 0.5544, Val Acc: 0.5644
+Time per sample: 0.002978 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 33/100
+Train Loss: 1.3158, Val Loss: 1.3215
+Train Acc: 0.5592, Val Acc: 0.5644
+Time per sample: 0.003002 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 34/100
+Train Loss: 1.3121, Val Loss: 1.3167
+Train Acc: 0.5596, Val Acc: 0.5647
+Time per sample: 0.003001 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 35/100
+Train Loss: 1.3081, Val Loss: 1.3161
+Train Acc: 0.5630, Val Acc: 0.5668
+Time per sample: 0.002978 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 36/100
+Train Loss: 1.3009, Val Loss: 1.3127
+Train Acc: 0.5660, Val Acc: 0.5647
+Time per sample: 0.002953 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 37/100
+Train Loss: 1.2945, Val Loss: 1.3062
+Train Acc: 0.5676, Val Acc: 0.5718
+Time per sample: 0.002951 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 38/100
+Train Loss: 1.2904, Val Loss: 1.3026
+Train Acc: 0.5679, Val Acc: 0.5697
+Time per sample: 0.002907 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 39/100
+Train Loss: 1.2829, Val Loss: 1.3002
+Train Acc: 0.5721, Val Acc: 0.5768
+Time per sample: 0.002902 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 40/100
+Train Loss: 1.2756, Val Loss: 1.2943
+Train Acc: 0.5775, Val Acc: 0.5762
+Time per sample: 0.002953 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 41/100
+Train Loss: 1.2721, Val Loss: 1.2912
+Train Acc: 0.5767, Val Acc: 0.5738
+Time per sample: 0.002949 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 42/100
+Train Loss: 1.2656, Val Loss: 1.2864
+Train Acc: 0.5784, Val Acc: 0.5824
+Time per sample: 0.003006 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 43/100
+Train Loss: 1.2590, Val Loss: 1.2851
+Train Acc: 0.5810, Val Acc: 0.5780
+Time per sample: 0.003010 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 44/100
+Train Loss: 1.2520, Val Loss: 1.2839
+Train Acc: 0.5835, Val Acc: 0.5850
+Time per sample: 0.003024 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 45/100
+Train Loss: 1.2463, Val Loss: 1.2769
+Train Acc: 0.5866, Val Acc: 0.5862
+Time per sample: 0.002931 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 46/100
+Train Loss: 1.2430, Val Loss: 1.2726
+Train Acc: 0.5890, Val Acc: 0.5874
+Time per sample: 0.002986 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 47/100
+Train Loss: 1.2348, Val Loss: 1.2717
+Train Acc: 0.5931, Val Acc: 0.5774
+Time per sample: 0.002924 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 48/100
+Train Loss: 1.2294, Val Loss: 1.2709
+Train Acc: 0.5955, Val Acc: 0.5877
+Time per sample: 0.002953 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 49/100
+Train Loss: 1.2223, Val Loss: 1.2666
+Train Acc: 0.5982, Val Acc: 0.5868
+Time per sample: 0.002986 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 50/100
+Train Loss: 1.2174, Val Loss: 1.2606
+Train Acc: 0.6023, Val Acc: 0.5927
+Time per sample: 0.003003 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 51/100
+[DomainAdversarialTrainer] DA gate opened at epoch 50 (train_acc=0.602 >= threshold=0.6)
+Train Loss: 1.2110, Val Loss: 1.2560
+Train Acc: 0.6083, Val Acc: 0.5903
+Time per sample: 0.003007 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 52/100
+Train Loss: 1.2054, Val Loss: 1.2530
+Train Acc: 0.6097, Val Acc: 0.5894
+Time per sample: 0.003020 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 53/100
+Train Loss: 1.1987, Val Loss: 1.2508
+Train Acc: 0.6097, Val Acc: 0.5927
+Time per sample: 0.002998 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 54/100
+Train Loss: 1.1927, Val Loss: 1.2496
+Train Acc: 0.6143, Val Acc: 0.5989
+Time per sample: 0.003033 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 55/100
+Train Loss: 1.1858, Val Loss: 1.2429
+Train Acc: 0.6211, Val Acc: 0.6015
+Time per sample: 0.003025 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 56/100
+Train Loss: 1.1797, Val Loss: 1.2376
+Train Acc: 0.6261, Val Acc: 0.6009
+Time per sample: 0.003016 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 57/100
+Train Loss: 1.1736, Val Loss: 1.2347
+Train Acc: 0.6234, Val Acc: 0.5998
+Time per sample: 0.003026 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 58/100
+Train Loss: 1.1663, Val Loss: 1.2330
+Train Acc: 0.6335, Val Acc: 0.6001
+Time per sample: 0.002982 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 59/100
+Train Loss: 1.1550, Val Loss: 1.2312
+Train Acc: 0.6367, Val Acc: 0.6095
+Time per sample: 0.002992 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 60/100
+Train Loss: 1.1507, Val Loss: 1.2278
+Train Acc: 0.6387, Val Acc: 0.6042
+Time per sample: 0.003046 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 61/100
+Train Loss: 1.1397, Val Loss: 1.2289
+Train Acc: 0.6477, Val Acc: 0.6048
+Time per sample: 0.003018 seconds
+Epoch 62/100
+Train Loss: 1.1327, Val Loss: 1.2214
+Train Acc: 0.6490, Val Acc: 0.6027
+Time per sample: 0.002975 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 63/100
+Train Loss: 1.1249, Val Loss: 1.2194
+Train Acc: 0.6533, Val Acc: 0.6124
+Time per sample: 0.003011 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 64/100
+Train Loss: 1.1146, Val Loss: 1.2196
+Train Acc: 0.6603, Val Acc: 0.6151
+Time per sample: 0.002980 seconds
+Epoch 65/100
+Train Loss: 1.1081, Val Loss: 1.2132
+Train Acc: 0.6626, Val Acc: 0.6113
+Time per sample: 0.002982 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 66/100
+Train Loss: 1.1015, Val Loss: 1.2118
+Train Acc: 0.6645, Val Acc: 0.6177
+Time per sample: 0.002945 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 67/100
+Train Loss: 1.0900, Val Loss: 1.2080
+Train Acc: 0.6724, Val Acc: 0.6233
+Time per sample: 0.003040 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 68/100
+Train Loss: 1.0773, Val Loss: 1.2042
+Train Acc: 0.6809, Val Acc: 0.6183
+Time per sample: 0.003068 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 69/100
+Train Loss: 1.0707, Val Loss: 1.2026
+Train Acc: 0.6859, Val Acc: 0.6198
+Time per sample: 0.003001 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 70/100
+Train Loss: 1.0701, Val Loss: 1.1898
+Train Acc: 0.6836, Val Acc: 0.6342
+Time per sample: 0.002979 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 71/100
+Train Loss: 1.0513, Val Loss: 1.1963
+Train Acc: 0.6959, Val Acc: 0.6275
+Time per sample: 0.002967 seconds
+Epoch 72/100
+Train Loss: 1.0442, Val Loss: 1.1883
+Train Acc: 0.7002, Val Acc: 0.6281
+Time per sample: 0.002989 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 73/100
+Train Loss: 1.0377, Val Loss: 1.1897
+Train Acc: 0.7000, Val Acc: 0.6207
+Time per sample: 0.002984 seconds
+Epoch 74/100
+Train Loss: 1.0234, Val Loss: 1.1806
+Train Acc: 0.7081, Val Acc: 0.6322
+Time per sample: 0.003050 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 75/100
+Train Loss: 1.0182, Val Loss: 1.1833
+Train Acc: 0.7134, Val Acc: 0.6452
+Time per sample: 0.003040 seconds
+Epoch 76/100
+Train Loss: 1.0048, Val Loss: 1.1773
+Train Acc: 0.7206, Val Acc: 0.6289
+Time per sample: 0.003144 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 77/100
+Train Loss: 1.0012, Val Loss: 1.1757
+Train Acc: 0.7255, Val Acc: 0.6372
+Time per sample: 0.003081 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 78/100
+Train Loss: 0.9955, Val Loss: 1.1910
+Train Acc: 0.7290, Val Acc: 0.6372
+Time per sample: 0.003033 seconds
+Epoch 79/100
+Train Loss: 0.9881, Val Loss: 1.1658
+Train Acc: 0.7334, Val Acc: 0.6463
+Time per sample: 0.003044 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 80/100
+Train Loss: 0.9799, Val Loss: 1.1693
+Train Acc: 0.7336, Val Acc: 0.6434
+Time per sample: 0.003017 seconds
+Epoch 81/100
+Train Loss: 0.9664, Val Loss: 1.1588
+Train Acc: 0.7430, Val Acc: 0.6446
+Time per sample: 0.003033 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 82/100
+Train Loss: 0.9598, Val Loss: 1.1753
+Train Acc: 0.7478, Val Acc: 0.6375
+Time per sample: 0.003029 seconds
+Epoch 83/100
+Train Loss: 0.9543, Val Loss: 1.1636
+Train Acc: 0.7516, Val Acc: 0.6428
+Time per sample: 0.003043 seconds
+Epoch 84/100
+Train Loss: 0.9456, Val Loss: 1.1630
+Train Acc: 0.7536, Val Acc: 0.6431
+Time per sample: 0.003008 seconds
+Epoch 85/100
+Train Loss: 0.9360, Val Loss: 1.1698
+Train Acc: 0.7621, Val Acc: 0.6375
+Time per sample: 0.003006 seconds
+Epoch 86/100
+Train Loss: 0.9314, Val Loss: 1.1589
+Train Acc: 0.7622, Val Acc: 0.6472
+Time per sample: 0.002970 seconds
+Epoch 87/100
+Train Loss: 0.9279, Val Loss: 1.1640
+Train Acc: 0.7641, Val Acc: 0.6566
+Time per sample: 0.002990 seconds
+Epoch 88/100
+Train Loss: 0.9184, Val Loss: 1.1649
+Train Acc: 0.7709, Val Acc: 0.6369
+Time per sample: 0.003026 seconds
+Epoch 89/100
+Train Loss: 0.9179, Val Loss: 1.1525
+Train Acc: 0.7707, Val Acc: 0.6569
+Time per sample: 0.003023 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 90/100
+Train Loss: 0.9125, Val Loss: 1.1534
+Train Acc: 0.7745, Val Acc: 0.6634
+Time per sample: 0.003002 seconds
+Epoch 91/100
+Train Loss: 0.9155, Val Loss: 1.1815
+Train Acc: 0.7730, Val Acc: 0.6378
+Time per sample: 0.003029 seconds
+Epoch 92/100
+Train Loss: 0.9052, Val Loss: 1.1456
+Train Acc: 0.7750, Val Acc: 0.6569
+Time per sample: 0.003058 seconds
+Best model saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/best_model.pt
+Epoch 93/100
+Train Loss: 0.9016, Val Loss: 1.1586
+Train Acc: 0.7769, Val Acc: 0.6602
+Time per sample: 0.003029 seconds
+Epoch 94/100
+Train Loss: 0.9041, Val Loss: 1.1722
+Train Acc: 0.7778, Val Acc: 0.6546
+Time per sample: 0.003050 seconds
+Epoch 95/100
+Train Loss: 0.9046, Val Loss: 1.1668
+Train Acc: 0.7752, Val Acc: 0.6499
+Time per sample: 0.003030 seconds
+Epoch 96/100
+Train Loss: 0.9083, Val Loss: 1.1662
+Train Acc: 0.7718, Val Acc: 0.6622
+Time per sample: 0.003003 seconds
+Epoch 97/100
+Train Loss: 0.8991, Val Loss: 1.1678
+Train Acc: 0.7795, Val Acc: 0.6510
+Time per sample: 0.003005 seconds
+Epoch 98/100
+Train Loss: 0.8957, Val Loss: 1.1476
+Train Acc: 0.7790, Val Acc: 0.6670
+Time per sample: 0.002962 seconds
+Epoch 99/100
+Train Loss: 0.9114, Val Loss: 1.1530
+Train Acc: 0.7759, Val Acc: 0.6729
+Time per sample: 0.002996 seconds
+Epoch 100/100
+Train Loss: 0.8989, Val Loss: 1.1605
+Train Acc: 0.7801, Val Acc: 0.6584
+Time per sample: 0.002988 seconds
+
+Evaluating on test splits:
+Evaluating on test_cross_device split:
+Predictions shape: (4958,), unique values: [0 1 2 3 4]
+Targets shape: (4958,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/classification_report_unknown.csv
+test_cross_device accuracy: 0.4907, F1-score: 0.4711
+Generating confusion matrix for test_cross_device split...
+Evaluating on test_cross_env split:
+Predictions shape: (5660,), unique values: [0 1 2 3 4]
+Targets shape: (5660,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/classification_report_unknown.csv
+test_cross_env accuracy: 0.3442, F1-score: 0.3329
+Generating confusion matrix for test_cross_env split...
+Evaluating on test_cross_user split:
+Predictions shape: (5967,), unique values: [0 1 2 3 4]
+Targets shape: (5967,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/classification_report_unknown.csv
+test_cross_user accuracy: 0.5251, F1-score: 0.4883
+Generating confusion matrix for test_cross_user split...
+Evaluating on test split:
+Predictions shape: (3400,), unique values: [0 1 2 3 4]
+Targets shape: (3400,), unique values: [0 1 2 3 4]
+Classification report saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/classification_report_unknown.csv
+test accuracy: 0.6600, F1-score: 0.6482
+Generating confusion matrix for test split...
+***********************FEW_SHOTFalse
+
+Test Results Summary:
+Split                     Accuracy        F1-Score       
+-------------------------------------------------------
+test_cross_device         0.4907          0.4711         
+test_cross_env            0.3442          0.3329         
+test_cross_user           0.5251          0.4883         
+test                      0.6600          0.6482         
+
+Training and evaluation completed.
+Best model from epoch 92, saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d
+Results saved to ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d
+New best model! Validation accuracy: 0.6569 (previous best: 0.6413)
+Supervised learning completed successfully.
+Configuration saved to model directory: ./results/HumanActivityRecognition/prunedattentiongru/params_45dd76bc7d/supervised_config.json
+
+Model prunedattentiongru training successful
+Running time: 164.33 minutes
+
+============================================================
+All model training completed
+============================================================
+Results summary:
+  - inceptioncsi: SUCCESS, Running time: 80.79 minutes
+  - lighttcn: SUCCESS, Running time: 80.28 minutes
+  - csiconformer: SUCCESS, Running time: 71.21 minutes
+  - deepbigru: SUCCESS, Running time: 91.05 minutes
+  - prunedattentiongru: SUCCESS, Running time: 164.33 minutes
+
+Successful: 5/5, Failed: 0/5
