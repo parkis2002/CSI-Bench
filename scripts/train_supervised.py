@@ -346,7 +346,8 @@ def main(args=None):
             f"_hl{getattr(args, 'hiercsi_layers', 6)}"
         )
 
-    experiment_id = f"params_{hashlib.md5(param_str.encode()).hexdigest()[:10]}"
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    experiment_id = f"{timestamp}_params_{hashlib.md5(param_str.encode()).hexdigest()[:10]}"
     
     if is_sagemaker:
         print("Running in SageMaker environment")
