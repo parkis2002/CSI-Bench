@@ -754,8 +754,13 @@ def main(args=None):
             f"λ_dom={args.lambda_domain_ce}, λ_orth={args.lambda_ortho}, "
             f"augmentation={use_aug})"
         )
+        # Pass scheduler=None so DisentangledTrainer can add its extra param
+        # groups (kd_projector, adv_heads) before the scheduler is created.
+        # LambdaLR snapshots base_lrs from the optimizer at construction time;
+        # if we pass the pre-built scheduler, it only covers the model's group
+        # and scheduler.step() crashes with a strict-zip length mismatch.
         trainer = DisentangledTrainer(
-            **trainer_kwargs,
+            **{**trainer_kwargs, 'scheduler': None},
             **aug_kwargs,
             use_augmentation=use_aug,
             teacher=teacher,
@@ -765,6 +770,11 @@ def main(args=None):
             lambda_domain_ce=args.lambda_domain_ce,
             lambda_ortho=args.lambda_ortho,
             da_start_threshold=getattr(args, 'da_start_threshold', 0.60),
+        )
+        # Now all param groups are registered; build the scheduler with the
+        # full optimizer so every group gets its own base_lr entry.
+        trainer.scheduler = torch.optim.lr_scheduler.LambdaLR(
+            trainer.optimizer, lr_lambda=warmup_cosine_schedule
         )
     elif use_kd:
         kd_ckpt = getattr(args, 'kd_teacher_checkpoint', None)
