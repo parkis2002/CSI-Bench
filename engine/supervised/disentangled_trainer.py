@@ -149,15 +149,24 @@ class DisentangledTrainer(AugmentedTaskTrainer):
         t_logits: torch.Tensor,
         s_feat: torch.Tensor,
         t_feat: torch.Tensor,
+        source_mask: torch.Tensor,
     ):
-        """Soft-target KL + feature MSE losses (unscaled)."""
+        """Soft-target KL + feature MSE losses (unscaled), computed ONLY on source domain.
+
+        The teacher has never seen target-domain data, so its predictions there
+        are unreliable.  Masking prevents blind-teacher data leakage and avoids
+        degrading cross-domain performance.
+        """
+        if not source_mask.any():
+            return s_logits.new_tensor(0.0), s_feat.new_tensor(0.0)
+
         T = self.kd_temperature
-        s_log_soft = F.log_softmax(s_logits / T, dim=-1)
-        t_soft = F.softmax(t_logits / T, dim=-1).detach()
+        s_log_soft = F.log_softmax(s_logits[source_mask] / T, dim=-1)
+        t_soft = F.softmax(t_logits[source_mask] / T, dim=-1).detach()
         kd_soft = F.kl_div(s_log_soft, t_soft, reduction='batchmean') * (T * T)
 
-        s_proj = self.kd_projector(s_feat)
-        feat_loss = F.mse_loss(s_proj, t_feat.detach())
+        s_proj = self.kd_projector(s_feat[source_mask])
+        feat_loss = F.mse_loss(s_proj, t_feat[source_mask].detach())
         return kd_soft, feat_loss
 
     def _ortho_loss(
@@ -165,17 +174,19 @@ class DisentangledTrainer(AugmentedTaskTrainer):
         motion_feat: torch.Tensor,
         domain_feat: torch.Tensor,
     ) -> torch.Tensor:
-        """Mean absolute cosine similarity between motion and domain features.
+        """Outer-product cross-correlation loss for absolute disentanglement.
 
-        Bounded in [0, 1]; minimising pushes the two representations orthogonal.
+        Computes the full [B, motion_channels, domain_channels] cross-correlation
+        matrix per sample via batched outer product.  Minimising the mean absolute
+        value forces every pair of motion/domain feature dimensions toward zero
+        correlation, enforcing disentanglement without slicing and regardless of
+        dimension mismatch (e.g. 128 vs 64).
         """
-        m = F.normalize(motion_feat, dim=-1)  # [B, motion_channels]
-        d = F.normalize(domain_feat, dim=-1)  # [B, domain_channels]
-        # Align dims if motion_channels ≠ domain_channels via a dot product
-        # over the shared leading batch dimension only (per-sample cosine).
-        # For mismatched dims, fall back to per-sample L2 cosine proxy:
-        min_dim = min(m.size(-1), d.size(-1))
-        return (m[:, :min_dim] * d[:, :min_dim]).sum(dim=-1).abs().mean()
+        m = F.normalize(motion_feat, dim=-1)   # [B, motion_channels]
+        d = F.normalize(domain_feat, dim=-1)   # [B, domain_channels]
+        # [B, motion_channels, 1] × [B, 1, domain_channels] → [B, motion_channels, domain_channels]
+        cross_corr = torch.bmm(m.unsqueeze(2), d.unsqueeze(1))
+        return cross_corr.abs().mean()
 
     def _domain_adv_loss(
         self,
@@ -279,9 +290,15 @@ class DisentangledTrainer(AugmentedTaskTrainer):
             # ---- Focal loss -------------------------------------------------
             task_loss = self._loss(motion_logits, labels)
 
-            # ---- KD losses --------------------------------------------------
+            # ---- KD losses (source domain only) -----------------------------
+            # domain_labels[:, 0] is the device index; label 0 = source domain.
+            # When domain labels are unavailable, treat the whole batch as source.
+            source_mask = (
+                (domain_labels[:, 0] == 0) if has_domain
+                else torch.ones(inputs.size(0), dtype=torch.bool, device=self.device)
+            )
             kd_soft, feat_loss = self._kd_losses(
-                motion_logits, t_logits, motion_feat, t_feat
+                motion_logits, t_logits, motion_feat, t_feat, source_mask
             )
 
             # ---- Orthogonal loss --------------------------------------------
