@@ -276,7 +276,12 @@ class AugmentedTaskTrainer(TaskTrainer):
         total_samples = 0
         total_time = 0.0
 
-        for inputs, labels in self.train_loader:
+        for batch in self.train_loader:
+            if len(batch) == 3:
+                inputs, labels, _ = batch
+            else:
+                inputs, labels = batch
+
             if inputs.size(0) == 0:
                 continue
 
