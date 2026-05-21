@@ -5,7 +5,7 @@
   "output_dir": "./results",
 
   "task": "HumanActivityRecognition",
-  "available_models": ["inceptioncsi", "lighttcn", "deepbigru"],
+  "available_models": ["inceptioncsi", "lighttcn", "deepbigru", "disentangledcsi"],
 
   "win_len": 500,
   "feature_size": 232,
@@ -17,6 +17,7 @@
   "warmup_epochs": 5,
   "patience": 20,
   "seed": 42,
+  "num_workers": 4,
 
   "test_splits": "all",
 
@@ -102,6 +103,27 @@
         "hiercsi_layers": 6,
         "dropout": 0.1,
         "freeze_frac": 0.2
+      }
+    },
+    "disentangledcsi": {
+      "learning_rate": 0.0005,
+      "model_params": {
+        "enc_channels": 64,
+        "motion_channels": 128,
+        "domain_channels": 64,
+        "enc_layers": 2,
+        "motion_blocks": 3,
+        "domain_blocks": 2,
+        "dropout": 0.1,
+        "lambda_ortho": 0.1,
+        "lambda_domain_ce": 0.5,
+        "da_start_threshold": 0.60,
+        "use_augmentation": true,
+        "noise_prob": 0.0,
+        "mixup_prob": 0.0,
+        "shift_prob": 0.2,
+        "amplitude_prob": 0.2,
+        "freeze_frac": 0.0
       }
     }
   }

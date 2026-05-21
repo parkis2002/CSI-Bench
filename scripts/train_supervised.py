@@ -37,12 +37,14 @@ from model.supervised.models import (
 from model.supervised.pruned_attention_gru import PrunedAttentionGRUClassifier
 from model.supervised.lightweight_models import LightTCN, InceptionCSI
 from model.supervised.performance_models import CsiConformer, DeepBiGRU, HierCSIFormer, ResNet18CSI
+from model.supervised.disentangled_cnn import DisentangledCSI
 
 # Import TaskTrainer and AugmentedTaskTrainer
 from engine.supervised.task_trainer import TaskTrainer
 from engine.supervised.augmented_trainer import AugmentedTaskTrainer
 from engine.supervised.domain_adversarial_trainer import DomainAdversarialTrainer
 from engine.supervised.kd_trainer import KnowledgeDistillationTrainer
+from engine.supervised.disentangled_trainer import DisentangledTrainer
 
 # Add few-shot learning import
 from engine.few_shot import FewShotAdapter
@@ -63,6 +65,7 @@ MODEL_TYPES = {
     'deepbigru': DeepBiGRU,
     'hiercsiformer': HierCSIFormer,
     'resnet18csi': ResNet18CSI,
+    'disentangledcsi': DisentangledCSI,
 }
 
 def main(args=None):
@@ -80,6 +83,7 @@ def main(args=None):
                                 'csiconformer', 'deepbigru',
                                 'hiercsiformer',
                                 'resnet18csi',
+                                'disentangledcsi',
                             ],
                             help='Type of model to train')
         parser.add_argument('--batch_size', type=int, default=32, help='Batch size for training')
@@ -196,6 +200,24 @@ def main(args=None):
         parser.add_argument('--hiercsi_layers', type=int, default=6,
                             help='Number of pre-LN Transformer encoder blocks '
                                  'in HierCSIFormer. Default 6.')
+
+        # ---- DisentangledCSI-specific parameters ----------------------------
+        parser.add_argument('--enc_channels', type=int, default=64,
+                            help='Shared encoder output channels (DisentangledCSI)')
+        parser.add_argument('--motion_channels', type=int, default=128,
+                            help='Motion branch hidden dimension (DisentangledCSI)')
+        parser.add_argument('--domain_channels', type=int, default=64,
+                            help='Domain branch hidden dimension (DisentangledCSI)')
+        parser.add_argument('--enc_layers', type=int, default=2,
+                            help='Number of shared encoder DSConv blocks (DisentangledCSI)')
+        parser.add_argument('--motion_blocks', type=int, default=3,
+                            help='Number of DSConv blocks in motion branch (DisentangledCSI)')
+        parser.add_argument('--domain_blocks', type=int, default=2,
+                            help='Number of DSConv blocks in domain branch (DisentangledCSI)')
+        parser.add_argument('--lambda_ortho', type=float, default=0.1,
+                            help='Weight of orthogonal regularisation loss (DisentangledCSI)')
+        parser.add_argument('--lambda_domain_ce', type=float, default=0.5,
+                            help='Weight of domain branch CE loss (DisentangledCSI)')
 
         # ---- Augmentation parameters (used with AugmentedTaskTrainer) ----
         parser.add_argument('--use_augmentation', action='store_true',
@@ -401,7 +423,12 @@ def main(args=None):
     # Domain adversarial: which metadata columns to use as domain labels.
     # Determined here so the collate_fn closure can reference it.
     use_domain_adv = getattr(args, 'use_domain_adversarial', False)
-    _DOMAIN_COLUMNS = ['device', 'environment', 'user'] if use_domain_adv else []
+    # DisentangledCSI always requires domain labels for its domain branch.
+    _DOMAIN_COLUMNS = (
+        ['device', 'environment', 'user']
+        if (use_domain_adv or args.model == 'disentangledcsi')
+        else []
+    )
 
     # Add handling for None values to prevent dataloader errors
     def custom_collate_fn(batch):
@@ -595,6 +622,21 @@ def main(args=None):
             'dropout': args.dropout,
         })
 
+    # DisentangledCSI specific parameters
+    if args.model == 'disentangledcsi':
+        model_kwargs.update({
+            'feature_size': args.feature_size,
+            'win_len': args.win_len,
+            'enc_channels': args.enc_channels,
+            'motion_channels': args.motion_channels,
+            'domain_channels': args.domain_channels,
+            'enc_layers': args.enc_layers,
+            'motion_blocks': args.motion_blocks,
+            'domain_blocks': args.domain_blocks,
+            'dropout': args.dropout,
+            'domain_n_classes': domain_n_classes,
+        })
+
     # Initialize model
     model = ModelClass(**model_kwargs)
     model = model.to(device)
@@ -690,7 +732,40 @@ def main(args=None):
         grad_clip_norm=args.grad_clip_norm,
     )
 
-    if use_kd:
+    if args.model == 'disentangledcsi':
+        kd_ckpt = getattr(args, 'kd_teacher_checkpoint', None)
+        if not kd_ckpt:
+            raise ValueError(
+                "--kd_teacher_checkpoint must be set for disentangledcsi "
+                "(teacher is required for KD losses)"
+            )
+        teacher = ResNet18CSI(
+            win_len=args.win_len,
+            feature_size=args.feature_size,
+            num_classes=num_classes,
+        )
+        ckpt = torch.load(kd_ckpt, map_location=device, weights_only=False)
+        teacher.load_state_dict(ckpt['model_state_dict'])
+        print(
+            f"Using DisentangledTrainer  "
+            f"(teacher=ResNet18CSI from {kd_ckpt}, "
+            f"T={args.kd_temperature}, α={args.kd_alpha}, β={args.kd_beta}, "
+            f"λ_dom={args.lambda_domain_ce}, λ_orth={args.lambda_ortho}, "
+            f"augmentation={use_aug})"
+        )
+        trainer = DisentangledTrainer(
+            **trainer_kwargs,
+            **aug_kwargs,
+            use_augmentation=use_aug,
+            teacher=teacher,
+            kd_temperature=args.kd_temperature,
+            kd_alpha=args.kd_alpha,
+            kd_beta=args.kd_beta,
+            lambda_domain_ce=args.lambda_domain_ce,
+            lambda_ortho=args.lambda_ortho,
+            da_start_threshold=getattr(args, 'da_start_threshold', 0.60),
+        )
+    elif use_kd:
         kd_ckpt = getattr(args, 'kd_teacher_checkpoint', None)
         if not kd_ckpt:
             raise ValueError(
